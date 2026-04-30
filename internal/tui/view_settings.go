@@ -373,7 +373,7 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 				}
 			}
 		case config.TypeLink:
-			valueStr = lipgloss.NewStyle().Foreground(colors.Cyan()).Render("Open [Enter]")
+			valueStr = lipgloss.NewStyle().Foreground(colors.Cyan()).Render(i18n.T("Open [Enter]"))
 		default:
 			valueStr = formatSettingValueForEdit(value, meta.Type, meta.Key, true)
 			if valueStr != "\u221E" {
@@ -663,7 +663,7 @@ func (m *RootModel) setSettingValue(category, key, value string) error {
 	case config.TypeString, config.TypeAuthToken, config.TypeLink:
 		if key == "global_rate_limit" || key == "default_download_rate_limit" {
 			if _, err := strconv.ParseFloat(value, 64); err == nil {
-				value += " MB/s"
+				value += i18n.T(" MB/s")
 			}
 			if bps, err := utils.ParseRateLimitValue(value); err == nil {
 				value = utils.FormatRateLimit(bps)
@@ -807,11 +807,11 @@ func (m RootModel) getSettingUnit() string {
 	case "dial_hedge_count":
 		return " conns"
 	case "max_task_retries":
-		return " retries"
+		return i18n.T(" retries")
 	case "slow_worker_grace_period", "stall_timeout":
-		return " seconds"
+		return i18n.T(" seconds")
 	case "slow_worker_threshold", "speed_ema_alpha":
-		return " (0.0-1.0)"
+		return i18n.T(" (0.0-1.0)")
 	case "global_rate_limit", "default_download_rate_limit":
 		return " MB/s"
 	default:
