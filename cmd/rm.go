@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 
 var rmCmd = &cobra.Command{
 	Use:     "rm <ID>",
 	Aliases: []string{"kill"},
-	Short:   "Remove a download",
-	Long:    `Remove a download by its ID. Use --clean to remove all completed downloads. Use --clean-failed to remove all failed downloads. Use --purge to also delete the file(s) from disk.`,
+	Short:   i18n.T("Remove a download"),
+	Long:    i18n.T(`Remove a download by its ID. Use --clean to remove all completed downloads. Use --clean-failed to remove all failed downloads. Use --purge to also delete the file(s) from disk.`),
 	Args:    cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := initializeGlobalState(); err != nil {
@@ -24,18 +25,18 @@ var rmCmd = &cobra.Command{
 		purge, _ := cmd.Flags().GetBool("purge")
 
 		if clean && cleanFailed {
-			return fmt.Errorf("--clean and --clean-failed are mutually exclusive")
+			return fmt.Errorf(i18n.T("--clean and --clean-failed are mutually exclusive"))
 		}
 
 		if clean && purge {
-			return fmt.Errorf("--clean and --purge are mutually exclusive; use --purge with an ID to also delete that download's files")
+			return fmt.Errorf(i18n.T("--clean and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
 		}
 		if cleanFailed && purge {
-			return fmt.Errorf("--clean-failed and --purge are mutually exclusive; use --purge with an ID to also delete that download's files")
+			return fmt.Errorf(i18n.T("--clean-failed and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
 		}
 
 		if !clean && !cleanFailed && len(args) == 0 {
-			return fmt.Errorf("provide a download ID, or use --clean or --clean-failed")
+			return fmt.Errorf(i18n.T("provide a download ID, or use --clean or --clean-failed"))
 		}
 
 		if clean {
@@ -70,20 +71,20 @@ var rmCmd = &cobra.Command{
 			}
 			var res map[string]int64
 			_ = json.NewDecoder(resp.Body).Decode(&res)
-			fmt.Printf("Removed %d failed downloads.\n", res["deleted"])
+			fmt.Printf(i18n.T("Removed %d failed downloads.\n"), res["deleted"])
 			return nil
 		}
 
 		if purge {
-			return ExecuteAPIAction(args[0], "/purge", http.MethodPost, "Purged download and deleted files")
+			return ExecuteAPIAction(args[0], "/purge", http.MethodPost, i18n.T("Purged download and deleted files"))
 		}
-		return ExecuteAPIAction(args[0], "/delete", http.MethodPost, "Removed download")
+		return ExecuteAPIAction(args[0], "/delete", http.MethodPost, i18n.T("Removed download"))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(rmCmd)
-	rmCmd.Flags().Bool("clean", false, "Remove all completed downloads")
-	rmCmd.Flags().Bool("clean-failed", false, "Remove all failed downloads")
-	rmCmd.Flags().BoolP("purge", "p", false, "Also delete the downloaded file(s) from disk")
+	rmCmd.Flags().Bool("clean", false, i18n.T("Remove all completed downloads"))
+	rmCmd.Flags().Bool("clean-failed", false, i18n.T("Remove all failed downloads"))
+	rmCmd.Flags().BoolP("purge", "p", false, i18n.T("Also delete the downloaded file(s) from disk"))
 }

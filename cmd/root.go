@@ -644,18 +644,18 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&globalHost, "host", "", "Server host to connect/control (or set SURGE_HOST), e.g. 127.0.0.1:1700")
-	rootCmd.PersistentFlags().StringVar(&globalToken, "token", "", "Bearer token (or set SURGE_TOKEN)")
-	rootCmd.PersistentFlags().BoolVar(&globalInsecureHTTP, "insecure-http", false, "Allow plain HTTP for non-loopback remote targets")
-	rootCmd.PersistentFlags().BoolVar(&globalInsecureTLS, "insecure-tls", false, "Skip TLS certificate verification for remote targets")
-	rootCmd.PersistentFlags().StringVar(&globalTLSCAFile, "tls-ca-file", "", "PEM bundle to trust for remote HTTPS targets")
+	rootCmd.PersistentFlags().StringVar(&globalHost, "host", "", i18n.T("Server host to connect/control (or set SURGE_HOST), e.g. 127.0.0.1:1700"))
+	rootCmd.PersistentFlags().StringVar(&globalToken, "token", "", i18n.T("Bearer token (or set SURGE_TOKEN)"))
+	rootCmd.PersistentFlags().BoolVar(&globalInsecureHTTP, "insecure-http", false, i18n.T("Allow plain HTTP for non-loopback remote targets"))
+	rootCmd.PersistentFlags().BoolVar(&globalInsecureTLS, "insecure-tls", false, i18n.T("Skip TLS certificate verification for remote targets"))
+	rootCmd.PersistentFlags().StringVar(&globalTLSCAFile, "tls-ca-file", "", i18n.T("PEM bundle to trust for remote HTTPS targets"))
 	rootCmd.Flags().StringP("batch", "b", "", "File containing URLs to download (one per line)")
 	rootCmd.Flags().IntP("port", "p", 0, "Port to listen on (default: 8080 or first available)")
-	rootCmd.Flags().StringP("output", "o", "", "Output directory (defaults to current working directory)")
-	rootCmd.Flags().Bool("no-resume", false, "Do not auto-resume paused downloads on startup")
-	rootCmd.Flags().Bool("exit-when-done", false, "Exit when all downloads complete")
-	rootCmd.Flags().Bool("no-server", false, "Do not start the HTTP API server (CLI subcommands will not work)")
-	rootCmd.Flags().Bool("reset-settings", false, "Reset settings and keybindings to defaults on startup")
+	rootCmd.Flags().StringP("output", "o", "", i18n.T("Output directory (defaults to current working directory)"))
+	rootCmd.Flags().Bool("no-resume", false, i18n.T("Do not auto-resume paused downloads on startup"))
+	rootCmd.Flags().Bool("exit-when-done", false, i18n.T("Exit when all downloads complete"))
+	rootCmd.Flags().Bool("no-server", false, i18n.T("Do not start the HTTP API server (CLI subcommands will not work)"))
+	rootCmd.Flags().Bool("reset-settings", false, i18n.T("Reset settings and keybindings to defaults on startup"))
 	rootCmd.SetVersionTemplate("Surge v{{.Version}}\n")
 	rootCmd.Version = Version
 }

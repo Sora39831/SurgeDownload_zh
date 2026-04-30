@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 	"github.com/spf13/cobra"
 )
@@ -229,7 +230,7 @@ func startServerLogic(cmd *cobra.Command, args []string, portFlag int, batchFile
 
 		select {
 		case sig := <-sigChan:
-			fmt.Printf("\nReceived %s. Shutting down...\n", sig)
+			fmt.Printf(i18n.T("\nReceived %s. Shutting down...\n"), sig)
 			_ = executeGlobalShutdown(fmt.Sprintf("server signal: %s", sig))
 		case <-cmd.Context().Done():
 			fmt.Printf("\nService stop requested. Shutting down...\n")

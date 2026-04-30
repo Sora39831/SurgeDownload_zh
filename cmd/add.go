@@ -63,28 +63,28 @@ var addCmd = &cobra.Command{
 			}
 			attempted++
 			if err := sendToServerWithApproval(url, mirrors, resolvedOutput, baseURL, token, !confirm); err != nil {
-				fmt.Printf("Error adding %s: %v\n", url, err)
+				fmt.Printf(i18n.T("Error adding %s: %v\n"), url, err)
 				continue
 			}
 			count++
 		}
 
 		if count > 0 {
-			fmt.Printf("Successfully added %d downloads.\n", count)
+			fmt.Printf(i18n.T("Successfully added %d downloads.\n"), count)
 			return nil
 		}
 
 		if attempted > 0 {
-			return fmt.Errorf("failed to add any downloads")
+			return fmt.Errorf(i18n.T("failed to add any downloads"))
 		}
 
-		return fmt.Errorf("no valid URLs to add")
+		return fmt.Errorf(i18n.T("no valid URLs to add"))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(addCmd)
-	addCmd.Flags().StringP("batch", "b", "", "File containing URLs to download (one per line)")
-	addCmd.Flags().StringP("output", "o", "", "Output directory (defaults to current working directory)")
-	addCmd.Flags().Bool("confirm", false, "Show confirmation prompt before starting downloads")
+	addCmd.Flags().StringP("batch", "b", "", i18n.T("File containing URLs to download (one per line)"))
+	addCmd.Flags().StringP("output", "o", "", i18n.T("Output directory (defaults to current working directory)"))
+	addCmd.Flags().Bool("confirm", false, i18n.T("Show confirmation prompt before starting downloads"))
 }
