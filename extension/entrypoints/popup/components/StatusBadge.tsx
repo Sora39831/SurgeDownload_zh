@@ -1,3 +1,5 @@
+import { t } from '../../../lib/i18n';
+
 export default function StatusBadge(props: { connected: boolean; authValid: boolean; onClick?: () => void }) {
   const status = () => {
     if (!props.connected) return 'offline';
