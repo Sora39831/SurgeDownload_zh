@@ -9,6 +9,7 @@ import (
 	"github.com/SurgeDM/Surge/internal/bugreport"
 	"github.com/SurgeDM/Surge/internal/clipboard"
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
 
@@ -103,9 +104,9 @@ func (m RootModel) updateBatchConfirm(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) 
 		}
 
 		if skipped > 0 {
-			m.addLogEntry(LogStyleStarted.Render(fmt.Sprintf("\u2b07 Added %d downloads from batch (%d duplicates skipped)", added, skipped)))
+			m.addLogEntry(LogStyleStarted.Render(fmt.Sprintf(i18n.T("\u2b07 Added %d downloads from batch (%d duplicates skipped)"), added, skipped)))
 		} else {
-			m.addLogEntry(LogStyleStarted.Render(fmt.Sprintf("\u2b07 Added %d downloads from batch", added)))
+			m.addLogEntry(LogStyleStarted.Render(fmt.Sprintf(i18n.T("\u2b07 Added %d downloads from batch"), added)))
 		}
 		m.pendingBatchURLs = nil
 		m.batchFilePath = ""
@@ -134,9 +135,9 @@ func (m RootModel) updateURLUpdate(msg tea.KeyPressMsg) (tea.Model, tea.Cmd) {
 		if newURL != "" {
 			if d := m.GetSelectedDownload(); d != nil {
 				if err := m.Service.UpdateURL(d.ID, newURL); err != nil {
-					m.addLogEntry(LogStyleError.Render(fmt.Sprintf("\u2716 Failed to update URL: %s", err.Error())))
+					m.addLogEntry(LogStyleError.Render(fmt.Sprintf(i18n.T("\u2716 Failed to update URL: %s"), err.Error())))
 				} else {
-					m.addLogEntry(LogStyleComplete.Render(fmt.Sprintf("\u2714 URL Updated: %s", d.Filename)))
+					m.addLogEntry(LogStyleComplete.Render(fmt.Sprintf(i18n.T("\u2714 URL Updated: %s"), d.Filename)))
 					d.URL = newURL
 				}
 			}
@@ -302,21 +303,21 @@ func (m RootModel) buildCoreBugReportURL() string {
 
 func (m RootModel) tryOpenBugReportURL(reportURL string) RootModel {
 	if reportURL == "" {
-		m.addLogEntry(LogStyleError.Render("✖ Could not open browser. Try running surge bug-report from your terminal instead."))
+		m.addLogEntry(LogStyleError.Render(i18n.T("✖ Could not open browser. Try running surge bug-report from your terminal instead.")))
 		return m
 	}
 
 	if err := openBugReportBrowser(reportURL); err != nil {
 		if err := writeBugReportClipboard(reportURL); err == nil {
-			m.addLogEntry(LogStyleError.Render("✖ Could not open browser. URL copied to clipboard."))
+			m.addLogEntry(LogStyleError.Render(i18n.T("✖ Could not open browser. URL copied to clipboard.")))
 			return m
 		}
 
-		m.addLogEntry(LogStyleError.Render("✖ Could not open browser. Try running surge bug-report from your terminal instead."))
+		m.addLogEntry(LogStyleError.Render(i18n.T("✖ Could not open browser. Try running surge bug-report from your terminal instead.")))
 		return m
 	}
 
-	m.addLogEntry(LogStyleStarted.Render("🐞 Opening browser to file bug report..."))
+	m.addLogEntry(LogStyleStarted.Render(i18n.T("🐞 Opening browser to file bug report...")))
 	return m
 }
 
@@ -363,7 +364,7 @@ func (m RootModel) updateCategoryResetConfirm(msg tea.KeyPressMsg) (tea.Model, t
 	confirmReset := func() (tea.Model, tea.Cmd) {
 		defaults := config.DefaultSettings()
 		m.Settings.Categories = defaults.Categories
-		m.addLogEntry(LogStyleStarted.Render("\u2714 Categories reset to defaults"))
+		m.addLogEntry(LogStyleStarted.Render(i18n.T("\u2714 Categories reset to defaults")))
 		utils.Debug("Categories Reset to Defaults")
 		m.state = SettingsState
 		m.quitConfirmFocused = 0
