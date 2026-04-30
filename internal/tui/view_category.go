@@ -6,6 +6,7 @@ import (
 
 	"charm.land/lipgloss/v2"
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
@@ -21,8 +22,8 @@ func (m RootModel) viewCategoryManager() string {
 		content := lipgloss.NewStyle().
 			Padding(DefaultPaddingY, DefaultPaddingX*2).
 			Foreground(colors.LightGray()).
-			Render("Terminal too small for category manager")
-		box := renderBtopBox(PaneTitleStyle.Render(" Category Manager "), "", content, width, height, colors.Magenta())
+			Render(i18n.T("Terminal too small for category manager"))
+		box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Category Manager ")), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
 
@@ -56,17 +57,17 @@ func (m RootModel) viewCategoryManager() string {
 		enabledColor = colors.StateDownloading()
 	}
 	toggleStyle := lipgloss.NewStyle().Foreground(enabledColor).Bold(true)
-	toggleLine := lipgloss.NewStyle().Foreground(colors.LightGray()).Render("  Auto-Sort Downloads: ") +
+	toggleLine := lipgloss.NewStyle().Foreground(colors.LightGray()).Render(i18n.T("  Auto-Sort Downloads: ")) +
 		toggleStyle.Render(enabledStr) +
-		lipgloss.NewStyle().Foreground(colors.Gray()).Render("  (t to toggle)")
+		lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T("  (t to toggle)"))
 	if width < MinGraphStatsWidth {
-		toggleLine = lipgloss.NewStyle().Foreground(colors.LightGray()).Render("  Auto-Sort: ") +
+		toggleLine = lipgloss.NewStyle().Foreground(colors.LightGray()).Render(i18n.T("  Auto-Sort: ")) +
 			toggleStyle.Render(enabledStr) +
-			lipgloss.NewStyle().Foreground(colors.Gray()).Render("  (t)")
+			lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T("  (t)"))
 	}
 
 	helpText := m.renderCategoryHelp(width - (ProgressBarWidthOffset + HeaderWidthOffset))
-	catCount := fmt.Sprintf("%d categories", len(cats))
+	catCount := fmt.Sprintf(i18n.T("%d categories"), len(cats))
 	infoLine := lipgloss.NewStyle().Foreground(colors.Gray()).Render("  " + catCount)
 
 	innerHeight := height - BoxStyle.GetVerticalFrameSize()
@@ -111,7 +112,7 @@ func (m RootModel) viewCategoryManager() string {
 		padding+helpText,
 	)
 
-	box := renderBtopBox(PaneTitleStyle.Render(" Category Manager "), "", fullContent, width, height, colors.Magenta())
+	box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Category Manager ")), "", fullContent, width, height, colors.Magenta())
 	return m.renderModalWithOverlay(box)
 }
 
@@ -122,10 +123,10 @@ func (m RootModel) renderCategoryHelp(width int) string {
 
 	helpText := m.help.View(m.keys.CategoryMgr)
 	if width < MinGraphStatsWidth-2 {
-		helpText = "esc: save/close  enter: edit/save  del: remove"
+		helpText = i18n.T("esc: save/close  enter: edit/save  del: remove")
 	}
 	if width < MinTermWidth+3 {
-		helpText = "esc close | enter edit | del rm"
+		helpText = i18n.T("esc close | enter edit | del rm")
 	}
 
 	return lipgloss.NewStyle().
@@ -178,7 +179,7 @@ func renderCategoryListViewport(cats []config.Category, cursor int, editing bool
 		if idx < len(cats) {
 			label := strings.TrimSpace(cats[idx].Name)
 			if label == "" {
-				label = "(Unnamed Category)"
+				label = i18n.T("(Unnamed Category)")
 			}
 
 			prefix := "  "
@@ -197,7 +198,7 @@ func renderCategoryListViewport(cats []config.Category, cursor int, editing bool
 			addPrefix = "\u25b8 "
 			addStyle = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true)
 		}
-		lines = append(lines, addStyle.Width(innerWidth).MaxWidth(innerWidth).Render(addPrefix+"+ Add Category"))
+		lines = append(lines, addStyle.Width(innerWidth).MaxWidth(innerWidth).Render(addPrefix+i18n.T("+ Add Category")))
 	}
 
 	return strings.Join(lines, "\n")
@@ -227,17 +228,17 @@ func (m RootModel) renderCategoryDetailView(cats []config.Category, cursor, inne
 	divider := dimStyle.Render(strings.Repeat("\u2500", innerWidth))
 
 	content := lipgloss.JoinVertical(lipgloss.Left,
-		labelStyle.Render("Name: ")+valueStyle.Width(innerWidth-6).MaxWidth(innerWidth-6).Render(utils.TruncateTwoLines(cat.Name, innerWidth-6)),
+		labelStyle.Render(i18n.T("Name: "))+valueStyle.Width(innerWidth-6).MaxWidth(innerWidth-6).Render(utils.TruncateTwoLines(cat.Name, innerWidth-6)),
 		"",
-		labelStyle.Render("Description:"),
+		labelStyle.Render(i18n.T("Description:")),
 		valueStyle.Width(innerWidth).MaxWidth(innerWidth).Render(utils.TruncateTwoLines(cat.Description, innerWidth)),
 		"",
 		divider,
 		"",
-		labelStyle.Render("Pattern (Regex):"),
+		labelStyle.Render(i18n.T("Pattern (Regex):")),
 		valueStyle.Width(innerWidth).MaxWidth(innerWidth).Render(utils.TruncateTwoLines(cat.Pattern, innerWidth)),
 		"",
-		labelStyle.Render("Path:"),
+		labelStyle.Render(i18n.T("Path:")),
 		valueStyle.Width(innerWidth).MaxWidth(innerWidth).Render(utils.TruncateTwoLines(cat.Path, innerWidth)),
 	)
 
@@ -252,7 +253,7 @@ func (m RootModel) renderCategoryEditView(innerWidth, rows int) string {
 		rows = 1
 	}
 
-	fieldLabels := []string{"Name:", "Description:", "Pattern:", "Path:"}
+	fieldLabels := []string{i18n.T("Name:"), i18n.T("Description:"), i18n.T("Pattern:"), i18n.T("Path:")}
 	var fieldLines []string
 	for i, label := range fieldLabels {
 		labelStyle := lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true)
@@ -272,7 +273,7 @@ func (m RootModel) renderCategoryEditView(innerWidth, rows int) string {
 		Foreground(colors.Gray()).
 		Width(innerWidth).
 		MaxWidth(innerWidth).
-		Render("tab: next field  enter: save  esc: cancel")
+		Render(i18n.T("tab: next field  enter: save  esc: cancel"))
 	fieldLines = append(fieldLines, "", hint)
 
 	return formatSettingsBlock(strings.Join(fieldLines, "\n"), innerWidth, rows)
