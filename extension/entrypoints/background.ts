@@ -2,6 +2,7 @@ import { defineBackground } from 'wxt/utils/define-background';
 import { normalizeToken, normalizeServerUrl } from './popup/lib/utils';
 import { DownloadStatus, HistoryEntry } from './popup/store/types';
 import { STORAGE_KEYS } from '../lib/storage';
+import { t } from '../lib/i18n';
 import {
   buildDownloadRequestBody,
   buildEventStreamHeaders,
@@ -302,7 +303,7 @@ async function sendToSurge(
   options?: { skipApproval?: boolean },
 ): Promise<{ success: boolean; filename?: string; error?: string }> {
   const base = await getBaseUrl();
-  if (!base) return { success: false, error: 'Server not running' };
+  if (!base) return { success: false, error: t('Server not running') };
 
   try {
     const resp = await fetch(`${base}/download`, {
@@ -452,7 +453,7 @@ async function handleDownloadCreated(downloadItem: {
         type: 'basic',
         iconUrl: 'icons/icon48.png',
         title: 'Surge',
-        message: `Download started: ${result.filename || 'Unknown file'}`,
+        message: t('Download started: {filename}').replace('{filename}', result.filename || t('Unknown')),
       });
     }
   } else if (result.error) {
@@ -461,7 +462,7 @@ async function handleDownloadCreated(downloadItem: {
         type: 'basic',
         iconUrl: 'icons/icon48.png',
         title: 'Surge Error',
-        message: `Failed to start download: ${result.error}`,
+        message: t('Failed to start download: {error}').replace('{error}', result.error),
       });
     }
   }
@@ -648,7 +649,7 @@ async function notifyNextPendingDuplicate(): Promise<void> {
 
 async function handleConfirmDuplicate(id: string): Promise<{ success: boolean; error?: string }> {
   const pending = pendingDuplicates.get(id);
-  if (!pending) return { success: false, error: 'Pending download not found' };
+  if (!pending) return { success: false, error: t('Pending download not found') };
 
   pendingDuplicates.delete(id);
   await persistPendingDuplicates();
@@ -667,7 +668,7 @@ async function handleConfirmDuplicate(id: string): Promise<{ success: boolean; e
         type: 'basic',
         iconUrl: 'icons/icon48.png',
         title: 'Surge',
-        message: `Download started: ${pending.filename}`,
+        message: t('Download started: {filename}').replace('{filename}', pending.filename),
       });
     }
   }

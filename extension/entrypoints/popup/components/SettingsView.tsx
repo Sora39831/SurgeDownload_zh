@@ -10,6 +10,7 @@ import {
   notificationsEnabled, setNotificationsEnabled,
 } from '../store';
 import { normalizeToken, normalizeServerUrl } from '../lib/utils';
+import { t } from '../../../lib/i18n';
 
 function saveStatusSignal() {
   const [status, setStatus] = createSignal('');
@@ -32,47 +33,47 @@ export default function SettingsView() {
   const handleServerSave = async () => {
     const url = normalizeServerUrl(serverUrl());
     setServerUrl(url);
-    showServerStatus('Saving...');
+    showServerStatus(t('Saving...'));
     try {
       await browser.storage.local.set({ [STORAGE_KEYS.SERVER_URL]: url });
       setServerUrlLocked(url.length > 0);
-      showServerStatus('Saved');
+      showServerStatus(t('Saved'));
     } catch {
-      showServerStatus('Failed to save');
+      showServerStatus(t('Failed to save'));
     }
   };
 
   const handleServerDelete = async () => {
     setServerUrl('');
     setServerUrlLocked(false);
-    showServerStatus('Removing...');
+    showServerStatus(t('Removing...'));
     try {
       await browser.storage.local.set({ [STORAGE_KEYS.SERVER_URL]: '' });
-      showServerStatus('Removed');
+      showServerStatus(t('Removed'));
     } catch {
       setServerUrlLocked(true);
-      showServerStatus('Failed to remove');
+      showServerStatus(t('Failed to remove'));
     }
   };
 
   const handleSaveToken = async () => {
     const token = normalizeToken(authToken());
     setAuthToken(token);
-    showTokenStatus('Saving...');
+    showTokenStatus(t('Saving...'));
     try {
       await browser.storage.local.set({
         [STORAGE_KEYS.TOKEN]: token,
         [STORAGE_KEYS.VERIFIED]: 'false',
       });
       setAuthTokenLocked(token.length > 0);
-      showTokenStatus('Saved');
+      showTokenStatus(t('Saved'));
       const res = await browser.runtime.sendMessage({ type: 'validateAuth', token }).catch(() => null) as { ok?: boolean } | null;
       setAuthValid(res?.ok ?? false);
       if (res?.ok) {
         await browser.storage.local.set({ [STORAGE_KEYS.VERIFIED]: 'true' });
       }
     } catch {
-      showTokenStatus('Failed to save');
+      showTokenStatus(t('Failed to save'));
     }
   };
 
@@ -80,16 +81,16 @@ export default function SettingsView() {
     setAuthToken('');
     setAuthTokenLocked(false);
     setAuthValid(false);
-    showTokenStatus('Removing...');
+    showTokenStatus(t('Removing...'));
     try {
       await browser.storage.local.set({
         [STORAGE_KEYS.TOKEN]: '',
         [STORAGE_KEYS.VERIFIED]: 'false',
       });
-      showTokenStatus('Removed');
+      showTokenStatus(t('Removed'));
     } catch {
       setAuthTokenLocked(true);
-      showTokenStatus('Failed to remove');
+      showTokenStatus(t('Failed to remove'));
     }
   };
 
@@ -106,7 +107,7 @@ export default function SettingsView() {
     <div>
       <div class="settings-group">
         <label class="toggle-row">
-          <span>Intercept Downloads</span>
+          <span>{t('Intercept Downloads')}</span>
           <div class="toggle">
             <input
               type="checkbox"
@@ -117,7 +118,7 @@ export default function SettingsView() {
           </div>
         </label>
         <label class="toggle-row">
-          <span>Show Notifications</span>
+          <span>{t('Show Notifications')}</span>
           <div class="toggle">
             <input
               type="checkbox"
@@ -130,20 +131,20 @@ export default function SettingsView() {
       </div>
 
       <div class="settings-group">
-        <h3 class="settings-group-title">Server</h3>
+        <h3 class="settings-group-title">{t('Server')}</h3>
         <div class="settings-field">
-          <label class="settings-label" for="server-url">Server URL</label>
+          <label class="settings-label" for="server-url">{t('Server URL')}</label>
           <div class="auth-input settings-input-row">
             <input
               id="server-url"
               type="text"
               value={serverUrl()}
-              placeholder="http://127.0.0.1:1700"
+              placeholder={t('http://127.0.0.1:1700')}
               disabled={serverUrlLocked()}
               onInput={(e) => { setServerUrl((e.target as HTMLInputElement).value); }}
             />
             <button onClick={serverUrlLocked() ? handleServerDelete : handleServerSave}>
-              {serverUrlLocked() ? 'Delete' : 'Save'}
+              {serverUrlLocked() ? t('Delete') : t('Save')}
             </button>
           </div>
           {serverStatus() && (
@@ -152,13 +153,13 @@ export default function SettingsView() {
         </div>
 
         <div class="settings-field">
-          <label class="settings-label" for="auth-token">Auth Token</label>
+          <label class="settings-label" for="auth-token">{t('Auth Token')}</label>
           <div class="auth-input settings-input-row">
             <input
               id="auth-token"
               type="password"
               value={authToken()}
-              placeholder="Enter your token"
+              placeholder={t('Enter your token')}
               disabled={authTokenLocked()}
               onInput={(e) => {
                 setAuthToken((e.target as HTMLInputElement).value);
@@ -168,27 +169,27 @@ export default function SettingsView() {
               onBlur={() => setTokenFocused(false)}
             />
             <button onClick={authTokenLocked() ? handleDeleteToken : handleSaveToken}>
-              {authTokenLocked() ? 'Delete' : 'Save'}
+              {authTokenLocked() ? t('Delete') : t('Save')}
             </button>
           </div>
           <div class="settings-help">
-            Token can be obtained from <strong>TUI &gt; Settings &gt; Extension</strong>
+            {t('Token can be obtained from TUI > Settings > Extension')}
           </div>
           {tokenStatus() && !tokenFocused() && (
             <div class={`auth-status below${tokenStatus() === 'Saved' || tokenStatus() === 'Removed' ? ' ok' : tokenStatus().endsWith('...') ? '' : ' err'}`}>{tokenStatus()}</div>
           )}
           {authTokenLocked() && !authValid() && !tokenFocused() && !tokenStatus() && (
-            <div class="auth-status below err">Invalid Token</div>
+            <div class="auth-status below err">{t('Invalid Token')}</div>
           )}
           {!authToken() && !tokenFocused() && !tokenStatus() && (
-            <div class="auth-status below err">Token is Required</div>
+            <div class="auth-status below err">{t('Token is Required')}</div>
           )}
         </div>
       </div>
 
       <div class="settings-group">
         <div class="settings-group-header">
-          <h3 class="settings-group-title">Support</h3>
+          <h3 class="settings-group-title">{t('Support')}</h3>
           <div class="version-badge">v{extensionVersion}</div>
         </div>
         <a
@@ -221,7 +222,7 @@ export default function SettingsView() {
             <path d="M22 13h-4" />
             <path d="M17.2 17c2.1.1 3.8 1.9 3.8 4" />
           </svg>
-          Report a Bug
+          {t('Report a Bug')}
         </a>
         {isFirefox && (
           <a
@@ -230,7 +231,7 @@ export default function SettingsView() {
             rel="noopener noreferrer"
             class="support-link"
           >
-            Firefox Add-ons
+            {t('Firefox Add-ons')}
           </a>
         )}
       </div>

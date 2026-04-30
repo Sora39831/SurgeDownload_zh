@@ -2,17 +2,18 @@ import { createMemo, createSignal, For } from 'solid-js';
 import type { Accessor, JSX } from 'solid-js';
 import { formatSpeed, formatETA, truncate, extractFilename, formatBytes, formatHistoryTimestamp } from '../lib/utils';
 import type { DownloadStatus } from '../store/types';
+import { t } from '../../../lib/i18n';
 
 interface Props {
   download: Accessor<DownloadStatus>;
 }
 
 const STATUS_LABELS: Record<DownloadStatus['status'], string> = {
-  downloading: 'Downloading',
-  paused: 'Paused',
-  queued: 'Queued',
-  completed: 'Completed',
-  error: 'Error',
+  downloading: t('Downloading'),
+  paused: t('Paused'),
+  queued: t('Queued'),
+  completed: t('Completed'),
+  error: t('Error'),
 };
 
 type DownloadAction = {
@@ -94,17 +95,17 @@ export default function DownloadItem(props: Props) {
     const buttons: DownloadAction[] = [];
 
     if (currentStatus === 'downloading') {
-      buttons.push({ action: 'pauseDownload', className: 'pause', title: 'Pause', icon: <ActionIcon name="pause" /> });
+      buttons.push({ action: 'pauseDownload', className: 'pause', title: t('Pause'), icon: <ActionIcon name="pause" /> });
     }
     if (currentStatus === 'paused' || currentStatus === 'queued') {
-      buttons.push({ action: 'resumeDownload', className: 'resume', title: 'Resume', icon: <ActionIcon name="resume" /> });
+      buttons.push({ action: 'resumeDownload', className: 'resume', title: t('Resume'), icon: <ActionIcon name="resume" /> });
     }
     if (currentStatus === 'completed') {
-      buttons.push({ action: 'openFolder', className: 'open-folder', title: 'Open folder', icon: <ActionIcon name="folder" /> });
-      buttons.push({ action: 'openFile', className: 'open-file', title: 'Open file', icon: <ActionIcon name="file" /> });
+      buttons.push({ action: 'openFolder', className: 'open-folder', title: t('Open folder'), icon: <ActionIcon name="folder" /> });
+      buttons.push({ action: 'openFile', className: 'open-file', title: t('Open file'), icon: <ActionIcon name="file" /> });
     }
     if (currentStatus !== 'completed') {
-      buttons.push({ action: 'cancelDownload', className: 'cancel', title: 'Cancel', icon: <ActionIcon name="cancel" /> });
+      buttons.push({ action: 'cancelDownload', className: 'cancel', title: t('Cancel'), icon: <ActionIcon name="cancel" /> });
     }
 
     return buttons;

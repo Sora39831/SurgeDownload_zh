@@ -6,9 +6,9 @@ export default function StatusBadge(props: { connected: boolean; authValid: bool
   };
 
   const text = () => {
-    if (!props.connected) return 'Offline';
-    if (!props.authValid) return 'Invalid';
-    return 'Connected';
+    if (!props.connected) return t('Offline');
+    if (!props.authValid) return t('Invalid');
+    return t('Connected');
   };
 
   return (

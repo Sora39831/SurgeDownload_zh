@@ -1,3 +1,4 @@
+import { t } from '../../../lib/i18n';
 /**
  * Utility functions for formatting and parsing download data.
  */
@@ -40,8 +41,8 @@ export function formatSpeed(mbps: number): string {
 
 export function formatETA(seconds: number): string {
   if (!seconds || seconds <= 0) return '--:--';
-  if (seconds > 604800) return '> 1 week';
-  if (seconds > 86400) return '> 1 day';
+  if (seconds > 604800) return t('> 1 week');
+  if (seconds > 86400) return t('> 1 day');
 
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -53,28 +54,28 @@ export function formatETA(seconds: number): string {
 }
 
 export function formatHistoryTimestamp(timestampMs: number): string {
-  if (!timestampMs || timestampMs <= 0) return 'Unknown time';
+  if (!timestampMs || timestampMs <= 0) return t('Unknown time');
 
   const completedAt = new Date(timestampMs);
-  if (Number.isNaN(completedAt.getTime())) return 'Unknown time';
+  if (Number.isNaN(completedAt.getTime())) return t('Unknown time');
 
   const now = new Date();
   const yesterday = new Date(now);
   yesterday.setDate(now.getDate() - 1);
 
   const timeLabel = historyTimeFormatter.format(completedAt);
-  if (isSameCalendarDay(completedAt, now)) return `Today at ${timeLabel}`;
-  if (isSameCalendarDay(completedAt, yesterday)) return `Yesterday at ${timeLabel}`;
+  if (isSameCalendarDay(completedAt, now)) return `${t('Today at ')}${timeLabel}`;
+  if (isSameCalendarDay(completedAt, yesterday)) return `${t('Yesterday at ')}${timeLabel}`;
   return historyDateFormatter.format(completedAt);
 }
 
 export function truncate(str: string, len: number): string {
-  if (!str) return 'Unknown';
+  if (!str) return t('Unknown');
   return str.length > len ? str.slice(0, len - 3) + '...' : str;
 }
 
 export function extractFilename(url: string): string {
-  if (!url) return 'Unknown';
+  if (!url) return t('Unknown');
   try {
     const pathname = new URL(url).pathname;
     const filename = pathname.split('/').pop();
