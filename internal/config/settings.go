@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
 
@@ -127,8 +128,10 @@ func GetSettingsMetadata() map[string][]SettingMeta {
 				if label == "" {
 					label = settingField.Name
 				}
+				label = i18n.T(label)
 
 				desc := settingField.Tag.Get("ui_desc")
+				desc = i18n.T(desc)
 
 				// Determine implicit Type
 				typStr := settingField.Tag.Get("ui_type")
