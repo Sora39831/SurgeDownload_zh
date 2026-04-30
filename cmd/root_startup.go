@@ -6,6 +6,7 @@ import (
 	"sync/atomic"
 
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/store"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
@@ -59,6 +60,11 @@ func initializeGlobalState() error {
 	} else {
 		utils.CleanupLogs(retention)
 	}
+
+	if err := i18n.Init(getSettings().General.Language); err != nil {
+		utils.Debug("i18n init failed: %v", err)
+	}
+
 	return nil
 }
 
