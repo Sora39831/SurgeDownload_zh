@@ -15,6 +15,7 @@ import (
 	"time"
 
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/core"
 	"github.com/SurgeDM/Surge/internal/download"
 	"github.com/SurgeDM/Surge/internal/engine/events"
@@ -347,7 +348,7 @@ func maybeRunRemoteTUI(cmd *cobra.Command, args []string) (bool, error) {
 	}
 
 	if len(args) > 0 {
-		return false, fmt.Errorf("URLs cannot be passed when using --host. Use 'surge add <url>' after connecting")
+		return false, fmt.Errorf(i18n.T("URLs cannot be passed when using --host. Use 'surge add <url>' after connecting"))
 	}
 
 	if err := connectAndRunTUI(cmd, hostTarget); err != nil {
@@ -359,11 +360,11 @@ func maybeRunRemoteTUI(cmd *cobra.Command, args []string) (bool, error) {
 func acquireRootInstanceLock() (func(), error) {
 	isMaster, err := AcquireLock()
 	if err != nil {
-		return nil, fmt.Errorf("error acquiring lock: %w", err)
+		return nil, fmt.Errorf(i18n.T("error acquiring lock: %w"), err)
 	}
 
 	if !isMaster {
-		return nil, fmt.Errorf("surge is already running. Use 'surge add <url>' to add a download to the active instance")
+		return nil, fmt.Errorf(i18n.T("surge is already running. Use 'surge add <url>' to add a download to the active instance"))
 	}
 
 	return func() {
@@ -441,8 +442,8 @@ func queueInitialRootDownloads(args []string, opts rootRunOptions) {
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:           "surge [url]...",
-	Short:         "Blazing fast TUI download manager built in Go for power users",
-	Long:          `Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/SurgeDM/Surge`,
+	Short:         i18n.T("Blazing fast TUI download manager built in Go for power users"),
+	Long:          i18n.T("Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/SurgeDM/Surge"),
 	Version:       Version,
 	Args:          cobra.ArbitraryArgs,
 	SilenceErrors: true, //errors are printed in main.go this prevents double printing
@@ -592,16 +593,16 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&globalHost, "host", "", "Server host to connect/control (or set SURGE_HOST), e.g. 127.0.0.1:1700")
-	rootCmd.PersistentFlags().StringVar(&globalToken, "token", "", "Bearer token (or set SURGE_TOKEN)")
-	rootCmd.PersistentFlags().BoolVar(&globalInsecureHTTP, "insecure-http", false, "Allow plain HTTP for non-loopback remote targets")
-	rootCmd.PersistentFlags().BoolVar(&globalInsecureTLS, "insecure-tls", false, "Skip TLS certificate verification for remote targets")
-	rootCmd.PersistentFlags().StringVar(&globalTLSCAFile, "tls-ca-file", "", "PEM bundle to trust for remote HTTPS targets")
-	rootCmd.Flags().StringP("batch", "b", "", "File containing URLs to download (one per line)")
-	rootCmd.Flags().IntP("port", "p", 0, "Port to listen on (default: 8080 or first available)")
-	rootCmd.Flags().StringP("output", "o", "", "Output directory (defaults to current working directory)")
-	rootCmd.Flags().Bool("no-resume", false, "Do not auto-resume paused downloads on startup")
-	rootCmd.Flags().Bool("exit-when-done", false, "Exit when all downloads complete")
+	rootCmd.PersistentFlags().StringVar(&globalHost, "host", "", i18n.T("Server host to connect/control (or set SURGE_HOST), e.g. 127.0.0.1:1700"))
+	rootCmd.PersistentFlags().StringVar(&globalToken, "token", "", i18n.T("Bearer token (or set SURGE_TOKEN)"))
+	rootCmd.PersistentFlags().BoolVar(&globalInsecureHTTP, "insecure-http", false, i18n.T("Allow plain HTTP for non-loopback remote targets"))
+	rootCmd.PersistentFlags().BoolVar(&globalInsecureTLS, "insecure-tls", false, i18n.T("Skip TLS certificate verification for remote targets"))
+	rootCmd.PersistentFlags().StringVar(&globalTLSCAFile, "tls-ca-file", "", i18n.T("PEM bundle to trust for remote HTTPS targets"))
+	rootCmd.Flags().StringP("batch", "b", "", i18n.T("File containing URLs to download (one per line)"))
+	rootCmd.Flags().IntP("port", "p", 0, i18n.T("Port to listen on (default: 8080 or first available)"))
+	rootCmd.Flags().StringP("output", "o", "", i18n.T("Output directory (defaults to current working directory)"))
+	rootCmd.Flags().Bool("no-resume", false, i18n.T("Do not auto-resume paused downloads on startup"))
+	rootCmd.Flags().Bool("exit-when-done", false, i18n.T("Exit when all downloads complete"))
 	rootCmd.SetVersionTemplate("Surge v{{.Version}}\n")
 	rootCmd.Version = Version
 }

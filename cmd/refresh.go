@@ -8,13 +8,14 @@ import (
 	"net/url"
 
 	"github.com/SurgeDM/Surge/internal/utils"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 
 var refreshCmd = &cobra.Command{
 	Use:   "refresh <ID> <NEW_URL>",
-	Short: "Update the URL of a paused or errored download",
-	Long:  `Update the source URL of a download by its ID. It must be paused or in an error state to be refreshed.`,
+	Short: i18n.T("Update the URL of a paused or errored download"),
+	Long:  i18n.T("Update the source URL of a download by its ID. It must be paused or in an error state to be refreshed."),
 	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := initializeGlobalState(); err != nil {
@@ -59,7 +60,7 @@ var refreshCmd = &cobra.Command{
 		if resp.StatusCode != http.StatusOK {
 			return fmt.Errorf("server returned %s", resp.Status)
 		}
-		fmt.Printf("Successfully updated URL for download %s\n", id[:8])
+		fmt.Printf(i18n.T("Successfully updated URL for download %s\n"), id[:8])
 		return nil
 	},
 }

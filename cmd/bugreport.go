@@ -9,6 +9,7 @@ import (
 
 	"github.com/SurgeDM/Surge/internal/bugreport"
 	"github.com/SurgeDM/Surge/internal/utils"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 
@@ -23,8 +24,8 @@ var openBrowser = utils.OpenBrowser
 
 var bugReportCmd = &cobra.Command{
 	Use:   "bug-report",
-	Short: "Open a pre-filled GitHub bug report",
-	Long:  `Open an interactive GitHub bug report flow for core or extension issues.`,
+	Short: i18n.T("Open a pre-filled GitHub bug report"),
+	Long:  i18n.T("Open an interactive GitHub bug report flow for core or extension issues."),
 	Args:  cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return runBugReportCommand(cmd)
@@ -78,7 +79,7 @@ func runBugReportCommand(cmd *cobra.Command) error {
 		return nil
 	}
 
-	_, _ = fmt.Fprintln(out, "Opening browser to file bug report...")
+	_, _ = fmt.Fprintln(out, i18n.T("Opening browser to file bug report..."))
 	if err := openBrowser(reportURL); err != nil {
 		printManualURL(out, "Could not open browser. Please open this URL manually:", reportURL)
 		return nil

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"context"
 	"fmt"
 	"net"
@@ -21,8 +22,8 @@ type connectTarget struct {
 
 var connectCmd = &cobra.Command{
 	Use:   "connect [host:port]",
-	Short: "Connect TUI to a running Surge daemon",
-	Long:  `Connect to a running Surge daemon and open the TUI. When no target is specified, auto-detects a locally running server.`,
+	Short: i18n.T("Connect TUI to a running Surge daemon"),
+	Long:  i18n.T("Connect to a running Surge daemon and open the TUI. When no target is specified, auto-detects a locally running server."),
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		var target string
@@ -37,7 +38,7 @@ var connectCmd = &cobra.Command{
 				return fmt.Errorf("no local Surge server detected. Start one with 'surge' or 'surge server', or specify a target: surge connect <host:port>")
 			}
 			target = fmt.Sprintf("127.0.0.1:%d", port)
-			fmt.Fprintf(os.Stderr, "Auto-detected local server on port %d\n", port)
+			fmt.Fprintf(os.Stderr, i18n.T("Auto-detected local server on port %d\n"), port)
 		}
 		return connectAndRunTUI(cmd, target)
 	},
@@ -59,7 +60,7 @@ func connectAndRunTUI(_ *cobra.Command, target string) error {
 		return err
 	}
 
-	fmt.Fprintf(os.Stderr, "Connecting to %s...\n", parsed.BaseURL)
+	fmt.Fprintf(os.Stderr, i18n.T("Connecting to %s...\n"), parsed.BaseURL)
 
 	service, err := newRemoteDownloadService(parsed.BaseURL, token)
 	if err != nil {

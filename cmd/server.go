@@ -13,14 +13,15 @@ import (
 	"time"
 
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 	"github.com/spf13/cobra"
 )
 
 var serverCmd = &cobra.Command{
 	Use:   "server [url]...",
-	Short: "Manage the Surge background server (daemon)",
-	Long:  `Run the Surge background server in headless mode.`,
+	Short: i18n.T("Manage the Surge background server (daemon)"),
+	Long:  i18n.T("Run the Surge background server in headless mode."),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return serverStartCmd.RunE(cmd, args)
 	},
@@ -28,7 +29,7 @@ var serverCmd = &cobra.Command{
 
 var serverStartCmd = &cobra.Command{
 	Use:   "start [url]...",
-	Short: "Start the Surge server in headless mode",
+	Short: i18n.T("Start the Surge server in headless mode"),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// Attempt to acquire lock before any global state initialization
 		isMaster, err := AcquireLock()
@@ -73,45 +74,45 @@ var serverStartCmd = &cobra.Command{
 
 var serverStopCmd = &cobra.Command{
 	Use:   "stop",
-	Short: "Stop the running Surge server",
+	Short: i18n.T("Stop the running Surge server"),
 	Run: func(cmd *cobra.Command, args []string) {
 		pid := readPID()
 		if pid == 0 {
-			fmt.Println("No running Surge server found (PID file missing).")
+			fmt.Println(i18n.T("No running Surge server found (PID file missing)."))
 			return
 		}
 
 		process, err := os.FindProcess(pid)
 		if err != nil {
-			fmt.Printf("Error finding process: %v\n", err)
+			fmt.Printf(i18n.T("Error finding process: %v\n"), err)
 			return
 		}
 
 		// Try to send SIGTERM
 		err = process.Signal(syscall.SIGTERM)
 		if err != nil {
-			fmt.Printf("Error stopping server: %v\n", err)
+			fmt.Printf(i18n.T("Error stopping server: %v\n"), err)
 			return
 		}
 
-		fmt.Printf("Sent stop signal to process %d\n", pid)
+		fmt.Printf(i18n.T("Sent stop signal to process %d\n"), pid)
 	},
 }
 
 var serverStatusCmd = &cobra.Command{
 	Use:   "status",
-	Short: "Check the status of the Surge server",
+	Short: i18n.T("Check the status of the Surge server"),
 	Run: func(cmd *cobra.Command, args []string) {
 		pid := readPID()
 		if pid == 0 {
-			fmt.Println("Surge server is NOT running.")
+			fmt.Println(i18n.T("Surge server is NOT running."))
 			return
 		}
 
 		// Check if process exists
 		process, err := os.FindProcess(pid)
 		if err != nil {
-			fmt.Printf("Surge server is NOT running (Process %d not found).\n", pid)
+			fmt.Printf(i18n.T("Surge server is NOT running (Process %d not found).\n"), pid)
 			// Cleanup stale pid file?
 			return
 		}
@@ -119,12 +120,12 @@ var serverStatusCmd = &cobra.Command{
 		// Sending signal 0 to check existence
 		err = process.Signal(syscall.Signal(0))
 		if err != nil {
-			fmt.Printf("Surge server is NOT running (Process %d dead).\n", pid)
+			fmt.Printf(i18n.T("Surge server is NOT running (Process %d dead).\n"), pid)
 			return
 		}
 
 		port := readActivePort()
-		fmt.Printf("Surge server is running (PID: %d, Port: %d).\n", pid, port)
+		fmt.Printf(i18n.T("Surge server is running (PID: %d, Port: %d).\n"), pid, port)
 	},
 }
 
@@ -134,12 +135,12 @@ func init() {
 	serverCmd.AddCommand(serverStopCmd)
 	serverCmd.AddCommand(serverStatusCmd)
 
-	serverCmd.PersistentFlags().StringP("batch", "b", "", "File containing URLs to download")
-	serverCmd.PersistentFlags().IntP("port", "p", 0, "Port to listen on")
-	serverCmd.PersistentFlags().StringP("output", "o", "", "Output directory (defaults to current working directory)")
-	serverCmd.PersistentFlags().Bool("exit-when-done", false, "Exit when all downloads complete")
-	serverCmd.PersistentFlags().Bool("no-resume", false, "Do not auto-resume paused downloads on startup")
-	serverCmd.PersistentFlags().String("token", "", "Auth token for API clients (or set SURGE_TOKEN)")
+	serverCmd.PersistentFlags().StringP("batch", "b", "", i18n.T("File containing URLs to download"))
+	serverCmd.PersistentFlags().IntP("port", "p", 0, i18n.T("Port to listen on"))
+	serverCmd.PersistentFlags().StringP("output", "o", "", i18n.T("Output directory (defaults to current working directory)"))
+	serverCmd.PersistentFlags().Bool("exit-when-done", false, i18n.T("Exit when all downloads complete"))
+	serverCmd.PersistentFlags().Bool("no-resume", false, i18n.T("Do not auto-resume paused downloads on startup"))
+	serverCmd.PersistentFlags().String("token", "", i18n.T("Auth token for API clients (or set SURGE_TOKEN)"))
 }
 
 func savePID() {
@@ -192,10 +193,10 @@ func startServerLogic(cmd *cobra.Command, args []string, portFlag int, batchFile
 		outputDir: outputDir,
 	})
 
-	fmt.Printf("Surge %s running in server mode.\n", Version)
+	fmt.Printf(i18n.T("Surge %s running in server mode.\n"), Version)
 	host := serverBindHost
-	fmt.Printf("Serving on %s:%d\n", host, port)
-	fmt.Println("Press Ctrl+C to exit.")
+	fmt.Printf(i18n.T("Serving on %s:%d\n"), host, port)
+	fmt.Println(i18n.T("Press Ctrl+C to exit."))
 
 	StartHeadlessConsumer()
 
@@ -229,10 +230,10 @@ func startServerLogic(cmd *cobra.Command, args []string, portFlag int, batchFile
 
 		select {
 		case sig := <-sigChan:
-			fmt.Printf("\nReceived %s. Shutting down...\n", sig)
+			fmt.Printf(i18n.T("\nReceived %s. Shutting down...\n"), sig)
 			_ = executeGlobalShutdown(fmt.Sprintf("server signal: %s", sig))
 		case <-exitWhenDoneCh:
-			fmt.Println("All downloads finished. Exiting...")
+			fmt.Println(i18n.T("All downloads finished. Exiting..."))
 			_ = executeGlobalShutdown("server: exit when done")
 		}
 		return nil
@@ -243,7 +244,7 @@ func startServerLogic(cmd *cobra.Command, args []string, portFlag int, batchFile
 	defer signal.Stop(sigChan)
 	sig := <-sigChan
 
-	fmt.Printf("\nReceived %s. Shutting down...\n", sig)
+	fmt.Printf(i18n.T("\nReceived %s. Shutting down...\n"), sig)
 	_ = executeGlobalShutdown(fmt.Sprintf("server signal: %s", sig))
 	return nil
 }

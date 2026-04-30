@@ -12,14 +12,15 @@ import (
 	"github.com/SurgeDM/Surge/internal/engine/state"
 	"github.com/SurgeDM/Surge/internal/engine/types"
 	"github.com/SurgeDM/Surge/internal/utils"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 
 var lsCmd = &cobra.Command{
 	Use:     "ls [id]",
 	Aliases: []string{"l"},
-	Short:   "List downloads",
-	Long:    `List all downloads from the running server or database. Optionally show details for a specific download by ID.`,
+	Short:   i18n.T("List downloads"),
+	Long:    i18n.T("List all downloads from the running server or database. Optionally show details for a specific download by ID."),
 	Args:    cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := initializeGlobalState(); err != nil {
@@ -117,7 +118,7 @@ func printDownloads(jsonOutput bool, baseURL string, token string, strictRemote 
 
 	if len(downloads) == 0 {
 		if !jsonOutput {
-			fmt.Println("No downloads found.")
+			fmt.Println(i18n.T("No downloads found."))
 		} else {
 			fmt.Println("[]")
 		}
@@ -264,6 +265,6 @@ func printDownloadDetail(d types.DownloadStatus, jsonOutput bool) {
 
 func init() {
 	rootCmd.AddCommand(lsCmd)
-	lsCmd.Flags().Bool("json", false, "Output in JSON format")
-	lsCmd.Flags().Bool("watch", false, "Watch mode: refresh every second")
+	lsCmd.Flags().Bool("json", false, i18n.T("Output in JSON format"))
+	lsCmd.Flags().Bool("watch", false, i18n.T("Watch mode: refresh every second"))
 }

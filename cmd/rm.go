@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"fmt"
 	"net/http"
 
@@ -11,8 +12,8 @@ import (
 var rmCmd = &cobra.Command{
 	Use:     "rm <ID>",
 	Aliases: []string{"kill"},
-	Short:   "Remove a download",
-	Long:    `Remove a download by its ID. Use --clean to remove all completed downloads.`,
+	Short:   i18n.T("Remove a download"),
+	Long:    i18n.T("Remove a download by its ID. Use --clean to remove all completed downloads."),
 	Args:    cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := initializeGlobalState(); err != nil {
@@ -22,7 +23,7 @@ var rmCmd = &cobra.Command{
 		clean, _ := cmd.Flags().GetBool("clean")
 
 		if !clean && len(args) == 0 {
-			return fmt.Errorf("provide a download ID or use --clean")
+			return fmt.Errorf(i18n.T("provide a download ID or use --clean"))
 		}
 
 		if clean {
@@ -35,11 +36,11 @@ var rmCmd = &cobra.Command{
 			return nil
 		}
 
-		return ExecuteAPIAction(args[0], "/delete", http.MethodPost, "Removed download")
+		return ExecuteAPIAction(args[0], "/delete", http.MethodPost, i18n.T("Removed download"))
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(rmCmd)
-	rmCmd.Flags().Bool("clean", false, "Remove all completed downloads")
+	rmCmd.Flags().Bool("clean", false, i18n.T("Remove all completed downloads"))
 }

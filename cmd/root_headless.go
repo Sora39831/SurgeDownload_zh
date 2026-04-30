@@ -7,6 +7,7 @@ import (
 
 	"github.com/SurgeDM/Surge/internal/engine/events"
 	"github.com/SurgeDM/Surge/internal/utils"
+	"github.com/SurgeDM/Surge/internal/i18n"
 )
 
 // StartHeadlessConsumer starts a goroutine to consume progress messages and log to stdout
@@ -25,21 +26,21 @@ func StartHeadlessConsumer() {
 		for msg := range stream {
 			switch m := msg.(type) {
 			case events.DownloadStartedMsg:
-				fmt.Printf("Started: %s [%s]\n", m.Filename, truncateID(m.DownloadID))
+				fmt.Printf(i18n.T("Started: %s [%s]\n"), m.Filename, truncateID(m.DownloadID))
 			case events.DownloadCompleteMsg:
 				atomic.AddInt32(&activeDownloads, -1)
-				fmt.Printf("Completed: %s [%s] (in %s)\n", m.Filename, truncateID(m.DownloadID), m.Elapsed)
+				fmt.Printf(i18n.T("Completed: %s [%s] (in %s)\n"), m.Filename, truncateID(m.DownloadID), m.Elapsed)
 			case events.DownloadErrorMsg:
 				atomic.AddInt32(&activeDownloads, -1)
-				fmt.Printf("Error: %s [%s]: %v\n", m.Filename, truncateID(m.DownloadID), m.Err)
+				fmt.Printf(i18n.T("Error: %s [%s]: %v\n"), m.Filename, truncateID(m.DownloadID), m.Err)
 			case events.DownloadQueuedMsg:
-				fmt.Printf("Queued: %s [%s]\n", m.Filename, truncateID(m.DownloadID))
+				fmt.Printf(i18n.T("Queued: %s [%s]\n"), m.Filename, truncateID(m.DownloadID))
 			case events.DownloadPausedMsg:
-				fmt.Printf("Paused: %s [%s]\n", m.Filename, truncateID(m.DownloadID))
+				fmt.Printf(i18n.T("Paused: %s [%s]\n"), m.Filename, truncateID(m.DownloadID))
 			case events.DownloadResumedMsg:
-				fmt.Printf("Resumed: %s [%s]\n", m.Filename, truncateID(m.DownloadID))
+				fmt.Printf(i18n.T("Resumed: %s [%s]\n"), m.Filename, truncateID(m.DownloadID))
 			case events.DownloadRemovedMsg:
-				fmt.Printf("Removed: %s [%s]\n", m.Filename, truncateID(m.DownloadID))
+				fmt.Printf(i18n.T("Removed: %s [%s]\n"), m.Filename, truncateID(m.DownloadID))
 			}
 		}
 	}()
