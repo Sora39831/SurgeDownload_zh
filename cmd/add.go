@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/SurgeDM/Surge/internal/utils"
@@ -75,10 +76,10 @@ var addCmd = &cobra.Command{
 		}
 
 		if attempted > 0 {
-			return fmt.Errorf(i18n.T("failed to add any downloads"))
+			return errors.New(i18n.T("failed to add any downloads"))
 		}
 
-		return fmt.Errorf(i18n.T("no valid URLs to add"))
+		return errors.New(i18n.T("no valid URLs to add"))
 	},
 }
 

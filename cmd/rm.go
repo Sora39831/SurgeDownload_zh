@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -25,18 +26,18 @@ var rmCmd = &cobra.Command{
 		purge, _ := cmd.Flags().GetBool("purge")
 
 		if clean && cleanFailed {
-			return fmt.Errorf(i18n.T("--clean and --clean-failed are mutually exclusive"))
+			return errors.New(i18n.T("--clean and --clean-failed are mutually exclusive"))
 		}
 
 		if clean && purge {
-			return fmt.Errorf(i18n.T("--clean and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
+			return errors.New(i18n.T("--clean and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
 		}
 		if cleanFailed && purge {
-			return fmt.Errorf(i18n.T("--clean-failed and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
+			return errors.New(i18n.T("--clean-failed and --purge are mutually exclusive; use --purge with an ID to also delete that download's files"))
 		}
 
 		if !clean && !cleanFailed && len(args) == 0 {
-			return fmt.Errorf(i18n.T("provide a download ID, or use --clean or --clean-failed"))
+			return errors.New(i18n.T("provide a download ID, or use --clean or --clean-failed"))
 		}
 
 		if clean {
