@@ -65,7 +65,7 @@ func (m RootModel) wrapView(content string) tea.View {
 
 func (m RootModel) View() tea.View {
 	if m.width == 0 {
-		return m.wrapView("Loading...")
+		return m.wrapView(i18n.T("Loading..."))
 	}
 
 	// Terminal too small to render any meaningful layout
@@ -76,9 +76,9 @@ func (m RootModel) View() tea.View {
 
 	if m.shuttingDown {
 		modal := components.ConfirmationModal{
-			Title:       "Shutting Down",
-			Message:     "Pausing downloads and saving resume state...",
-			Detail:      "Please wait",
+			Title:       i18n.T("Shutting Down"),
+			Message:     i18n.T("Pausing downloads and saving resume state..."),
+			Detail:      i18n.T("Please wait"),
 			Keys:        components.NoKeys{},
 			Help:        m.help,
 			BorderColor: colors.Cyan(),
@@ -93,9 +93,9 @@ func (m RootModel) View() tea.View {
 
 	if m.state == InputState {
 		modal := components.AddDownloadModal{
-			Title:           "Add Download",
+			Title:           i18n.T("Add Download"),
 			Inputs:          []textinput.Model{m.inputs[0], m.inputs[1], m.inputs[2], m.inputs[3]},
-			Labels:          []string{"URL:", "Mirrors:", "Path:", "Filename:"},
+			Labels:          []string{i18n.T("URL:"), i18n.T("Mirrors:"), i18n.T("Path:"), i18n.T("Filename:")},
 			FocusedInput:    m.focusedInput,
 			BrowseHintIndex: 2,
 			Help:            m.help,
@@ -116,7 +116,7 @@ func (m RootModel) View() tea.View {
 		// Create a local copy to avoid modifying model during view (though View takes value receiver m)
 		fp := m.filepicker
 		picker := components.NewFilePickerModal(
-			" Select Directory ",
+			i18n.T(" Select Directory "),
 			&fp,
 			m.help,
 			m.keys.FilePicker,
@@ -146,7 +146,7 @@ func (m RootModel) View() tea.View {
 	if m.state == DuplicateWarningState {
 		modal := components.ConfirmationModal{
 			Title:       "\u26a0 Duplicate Detected",
-			Message:     "A download with this URL already exists",
+			Message:     i18n.T("A download with this URL already exists"),
 			Detail:      m.duplicateInfo,
 			Keys:        m.keys.Duplicate,
 			Help:        m.help,
@@ -176,7 +176,7 @@ func (m RootModel) View() tea.View {
 			focused = 1
 		}
 		modal := components.AddDownloadModal{
-			Title:           "Extension Download",
+			Title:           i18n.T("Extension Download"),
 			Inputs:          extInputs,
 			Labels:          []string{"Path:", "Filename:"},
 			FocusedInput:    focused,
@@ -200,7 +200,7 @@ func (m RootModel) View() tea.View {
 	if m.state == BatchFilePickerState {
 		fp := m.filepicker
 		picker := components.NewFilePickerModal(
-			" Select URL File (.txt) ",
+			i18n.T(" Select URL File (.txt) "),
 			&fp,
 			m.help,
 			m.keys.FilePicker,
@@ -225,8 +225,8 @@ func (m RootModel) View() tea.View {
 			batchDetail = fmt.Sprintf("Source: %s\nPath: %s", m.batchFilePath, m.inputs[2].View())
 		}
 		modal := components.ConfirmationModal{
-			Title:       "Batch Import",
-			Message:     fmt.Sprintf("Add %d downloads?", urlCount),
+			Title:       i18n.T("Batch Import"),
+			Message:     fmt.Sprintf(i18n.T("Add %d downloads?"), urlCount),
 			Detail:      batchDetail,
 			Keys:        m.keys.BatchConfirm,
 			Help:        m.help,
@@ -265,9 +265,9 @@ func (m RootModel) View() tea.View {
 	if m.state == BugReportSystemDetailsState {
 		w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 66, 12)
 		modal := components.ConfirmationModal{
-			Title:            "Core Bug Report",
-			Message:          "Include system details in issue body?",
-			Detail:           "(OS, version, commit)",
+			Title:            i18n.T("Core Bug Report"),
+			Message:          i18n.T("Include system details in issue body?"),
+			Detail:           i18n.T("(OS, version, commit)"),
 			Keys:             m.keys.QuitConfirm,
 			Help:             m.help,
 			BorderColor:      colors.Cyan(),
@@ -284,8 +284,8 @@ func (m RootModel) View() tea.View {
 		w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 72, 12)
 		modal := components.ConfirmationModal{
 			Title:            "Core Bug Report",
-			Message:          "Include latest debug log path in issue body?",
-			Detail:           "Choose yes to prefill the latest path when available.",
+			Message:          i18n.T("Include latest debug log path in issue body?"),
+			Detail:           i18n.T("Choose yes to prefill the latest path when available."),
 			Keys:             m.keys.QuitConfirm,
 			Help:             m.help,
 			BorderColor:      colors.Cyan(),
@@ -317,8 +317,8 @@ func (m RootModel) View() tea.View {
 	if m.state == UpdateAvailableState && m.UpdateInfo != nil {
 		modal := components.ConfirmationModal{
 			Title:       "\u2b06 Update Available",
-			Message:     fmt.Sprintf("A new version of Surge is available: %s", m.UpdateInfo.LatestVersion),
-			Detail:      fmt.Sprintf("Current: %s", m.UpdateInfo.CurrentVersion),
+			Message:     fmt.Sprintf(i18n.T("A new version of Surge is available: %s"), m.UpdateInfo.LatestVersion),
+			Detail:      fmt.Sprintf(i18n.T("Current: %s"), m.UpdateInfo.CurrentVersion),
 			Keys:        m.keys.Update,
 			Help:        m.help,
 			BorderColor: colors.Cyan(),
@@ -335,7 +335,7 @@ func (m RootModel) View() tea.View {
 
 	if m.state == URLUpdateState {
 		modal := components.AddDownloadModal{
-			Title:           "Refresh URL",
+			Title:           i18n.T("Refresh URL"),
 			Inputs:          []textinput.Model{m.urlUpdateInput},
 			Labels:          []string{"New URL:"},
 			FocusedInput:    0,
@@ -357,7 +357,7 @@ func (m RootModel) View() tea.View {
 	if m.state == HelpModalState {
 		w, h := GetDynamicModalDimensions(m.width, m.height, 40, 10, PopupWidth, 22)
 		modal := components.HelpModal{
-			Title:       "Keyboard Shortcuts",
+			Title:       i18n.T("Keyboard Shortcuts"),
 			HelpKeys:    m.keys.Dashboard,
 			Help:        m.help,
 			BorderColor: colors.Cyan(),
@@ -467,7 +467,7 @@ func (m RootModel) View() tea.View {
 	if selected != nil {
 		detailContent = renderFocusedDetails(selected, detailWidth-components.BorderFrameWidth, m.spinner.View())
 	} else {
-		detailContent = renderEmptyMessage(detailWidth-components.BorderFrameWidth, layout.DetailHeight-components.BorderFrameHeight, "No download selected")
+		detailContent = renderEmptyMessage(detailWidth-components.BorderFrameWidth, layout.DetailHeight-components.BorderFrameHeight, i18n.T("No download selected"))
 	}
 
 	// Render Components
@@ -603,15 +603,15 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 	}
 
 	fileInfoContent := lipgloss.JoinVertical(lipgloss.Left,
-		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render("URL: "), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(d.URL, valueWidth))),
-		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render("File: "), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(displayFilename, valueWidth))),
-		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render("Path: "), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(displayPath, valueWidth))),
-		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render("ID:   "), lipgloss.NewStyle().Foreground(colors.LightGray()).Width(valueWidth).MaxWidth(valueWidth).Render(utils.WrapText(d.ID, valueWidth))),
+		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render(i18n.T("URL: ")), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(d.URL, valueWidth))),
+		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render(i18n.T("File: ")), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(displayFilename, valueWidth))),
+		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render(i18n.T("Path: ")), StatsValueStyle.Width(valueWidth).MaxWidth(valueWidth).Render(utils.TruncateTwoLines(displayPath, valueWidth))),
+		lipgloss.JoinHorizontal(lipgloss.Top, StatsLabelStyle.Render(i18n.T("ID:   ")), lipgloss.NewStyle().Foreground(colors.LightGray()).Width(valueWidth).MaxWidth(valueWidth).Render(utils.WrapText(d.ID, valueWidth))),
 	)
 	fileSection := sectionStyle.Render(fileInfoContent)
 
 	// --- 3. Progress Section ---
-	labelStr := "Progress: "
+	labelStr := i18n.T("Progress: ")
 	progLabelStyle := lipgloss.NewStyle().Foreground(colors.Cyan())
 
 	var progContent string
@@ -682,7 +682,7 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 		}
 		etaStr = "Done"
 	} else if d.resuming {
-		speedStr = "Resuming..."
+		speedStr = i18n.T("Resuming..."
 		etaStr = "..."
 	} else if d.rateLimited {
 		speedStr = "Rate limited, retrying..."
@@ -729,8 +729,8 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 	// Stats Layout
 	colWidth := (contentWidth - (components.BorderFrameWidth * 2)) / 2
 	leftColItems := []string{
-		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render("Size:"), StatsValueStyle.Render(sizeStr)),
-		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render("Speed:"), StatsValueStyle.Render(speedStr)),
+		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render(i18n.T("Size:")), StatsValueStyle.Render(sizeStr)),
+		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render(i18n.T("Speed:")), StatsValueStyle.Render(speedStr)),
 	}
 	isActive := !d.done && !d.paused && !d.pausing && d.Speed > 0
 	if isActive {
@@ -739,12 +739,12 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 			conns = 1 // Single-connection download (range requests not supported)
 		}
 		connStr := fmt.Sprintf("%d", conns)
-		leftColItems = append(leftColItems, lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render("Conns:"), StatsValueStyle.Render(connStr)))
+		leftColItems = append(leftColItems, lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render(i18n.T("Conns:")), StatsValueStyle.Render(connStr)))
 	}
 	leftCol := lipgloss.JoinVertical(lipgloss.Left, leftColItems...)
 	rightCol := lipgloss.JoinVertical(lipgloss.Left,
-		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render("Time:"), StatsValueStyle.Render(timeStr)),
-		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render("ETA:"), StatsValueStyle.Render(etaStr)),
+		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render(i18n.T("Time:")), StatsValueStyle.Render(timeStr)),
+		lipgloss.JoinHorizontal(lipgloss.Left, StatsLabelStyle.Width(7).Render(i18n.T("ETA:")), StatsValueStyle.Render(etaStr)),
 	)
 
 	statsContent := lipgloss.JoinHorizontal(lipgloss.Top,
@@ -768,7 +768,7 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 			}
 		}
 		// More prominent Mirrors display
-		mirrorLabel := StatsLabelStyle.Render("Mirrors")
+		mirrorLabel := StatsLabelStyle.Render(i18n.T("Mirrors"))
 		mirrorStats := lipgloss.NewStyle().Foreground(colors.LightGray()).Render(fmt.Sprintf("%d Active / %d Total (%d Errors)", activeCount, total, errorCount))
 
 		mirrorSection = sectionStyle.Render(lipgloss.JoinVertical(lipgloss.Left, mirrorLabel, mirrorStats))
@@ -850,9 +850,9 @@ func (m RootModel) ComputeViewStats() ViewStats {
 
 func (m RootModel) renderTabs(activeTab, activeCount, queuedCount, doneCount int) string {
 	tabs := []components.Tab{
-		{Label: "Queued", Count: queuedCount, Pinned: m.pinnedTab == TabQueued},
-		{Label: "Active", Count: activeCount, Pinned: m.pinnedTab == TabActive},
-		{Label: "Done", Count: doneCount, Pinned: m.pinnedTab == TabDone},
+		{Label: i18n.T("Queued"), Count: queuedCount, Pinned: m.pinnedTab == TabQueued},
+		{Label: i18n.T("Active"), Count: activeCount, Pinned: m.pinnedTab == TabActive},
+		{Label: i18n.T("Done"), Count: doneCount, Pinned: m.pinnedTab == TabDone},
 	}
 	return components.RenderTabBar(tabs, activeTab, ActiveTabStyle, TabStyle)
 }
@@ -938,8 +938,8 @@ func (m RootModel) viewCategoryResetConfirm() string {
 	w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 60, 10)
 	modal := components.ConfirmationModal{
 		Title:            "Category Reset",
-		Message:          "Reset all categories to defaults?",
-		Detail:           "This will overwrite your custom rules.",
+		Message:          i18n.T("Reset all categories to defaults?"),
+		Detail:           i18n.T("This will overwrite your custom rules."),
 		Keys:             m.keys.QuitConfirm,
 		Help:             m.help,
 		BorderColor:      colors.Orange(),
