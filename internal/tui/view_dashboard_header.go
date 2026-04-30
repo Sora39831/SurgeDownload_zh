@@ -47,11 +47,11 @@ func (m *RootModel) renderHeaderBox(width, height int) string {
 			statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" " + serverAddr)
 		}
 	} else if m.IsRemote {
-		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" Connected to " + serverAddr)
+		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(i18n.T(" Connected to ") + serverAddr)
 	} else if m.ServerPort == 0 {
-		statusLine = lipgloss.NewStyle().Foreground(colors.Gray()).Render(" Local mode")
+		statusLine = lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T(" Local mode"))
 	} else {
-		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" Serving at " + serverAddr)
+		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(i18n.T(" Serving at ") + serverAddr)
 	}
 
 	statusPrefix := greenDot

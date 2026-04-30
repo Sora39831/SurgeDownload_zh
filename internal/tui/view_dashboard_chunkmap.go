@@ -2,6 +2,7 @@ package tui
 
 import (
 	"charm.land/lipgloss/v2"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 )
@@ -20,7 +21,7 @@ func (m *RootModel) renderChunkMapBox(width, height int, selected *DownloadModel
 
 	var innerContent string
 	if len(bitmap) == 0 || bitmapWidth == 0 {
-		innerContent = renderEmptyMessage(contentWidth, contentHeight, "Chunk visualization not available")
+		innerContent = renderEmptyMessage(contentWidth, contentHeight, i18n.T("Chunk visualization not available"))
 	} else {
 		targetRows := contentHeight
 		if targetRows < 3 {
@@ -47,5 +48,5 @@ func (m *RootModel) renderChunkMapBox(width, height int, selected *DownloadModel
 		innerContent = lipgloss.Place(contentWidth, contentHeight, lipgloss.Center, lipgloss.Top, chunkContentWrapper)
 	}
 
-	return renderBtopBox("", PaneTitleStyle.Render(" Chunk Map "), innerContent, width, height, colors.Gray())
+	return renderBtopBox("", PaneTitleStyle.Render(i18n.T(" Chunk Map ")), innerContent, width, height, colors.Gray())
 }

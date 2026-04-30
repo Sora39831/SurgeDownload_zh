@@ -4,6 +4,7 @@ import (
 	"charm.land/lipgloss/v2"
 
 	"github.com/SurgeDM/Surge/internal/tui/colors"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 )
 
@@ -79,7 +80,7 @@ func (m *RootModel) renderDownloadsBox(width, height int, stats ViewStats) strin
 		downloadsBorderColor = colors.Gray()
 	}
 
-	rightTitle := PaneTitleStyle.Render(" Downloads ")
+	rightTitle := PaneTitleStyle.Render(i18n.T(" Downloads "))
 
 	return renderBtopBox(leftTitle, rightTitle, innerContent, width, height, downloadsBorderColor)
 }

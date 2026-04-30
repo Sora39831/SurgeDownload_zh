@@ -8,6 +8,7 @@ import (
 
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
 
@@ -163,12 +164,12 @@ func (m *RootModel) renderGraphBox(width, height int, stats ViewStats) string {
 
 		statsContent := lipgloss.JoinVertical(lipgloss.Left,
 			fmt.Sprintf("%s %s", valueStyle.Render("\u25bc"), valueStyle.Render(speedStr)),
-			dimStyle.Render(fmt.Sprintf("  (%.0f Mbps)", speedMbps)),
+			dimStyle.Render(fmt.Sprintf(i18n.T("  (%.0f Mbps)"), speedMbps)),
 			"",
-			fmt.Sprintf("%s %s", labelStyleStats.Render("Top:"), valueStyle.Render(topStr)),
+			fmt.Sprintf("%s %s", labelStyleStats.Render(i18n.T("Top:")), valueStyle.Render(topStr)),
 			dimStyle.Render(fmt.Sprintf("  (%.0f Mbps)", topMbps)),
 			"",
-			fmt.Sprintf("%s %s", labelStyleStats.Render("Total:"), valueStyle.Render(utils.FormatBytes(stats.TotalDownloaded))),
+			fmt.Sprintf("%s %s", labelStyleStats.Render(i18n.T("Total:")), valueStyle.Render(utils.FormatBytes(stats.TotalDownloaded))),
 		)
 
 		statsBoxStyle := lipgloss.NewStyle().
