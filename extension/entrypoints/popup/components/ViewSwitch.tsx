@@ -1,4 +1,5 @@
 import type { ViewMode } from '../store';
+import { t } from '../../../lib/i18n';
 
 export default function ViewSwitch(props: {
   currentView: ViewMode;
@@ -11,14 +12,14 @@ export default function ViewSwitch(props: {
         type="button"
         onClick={() => props.onChange('active')}
       >
-        Active
+        {t('Active')}
       </button>
       <button
         class={`view-tab${props.currentView === 'history' ? ' active' : ''}`}
         type="button"
         onClick={() => props.onChange('history')}
       >
-        History
+        {t('History')}
       </button>
       <button
         class={`view-tab${props.currentView === 'settings' ? ' active' : ''}`}

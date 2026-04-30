@@ -1,4 +1,5 @@
 import { createSignal, onMount, onCleanup } from 'solid-js';
+import { t } from '../../../lib/i18n';
 
 export default function DuplicateModal() {
   const [visible, setVisible] = createSignal(false);
@@ -48,12 +49,12 @@ export default function DuplicateModal() {
     <div class={`modal-overlay${visible() ? '' : ' hidden'}`} id="duplicateModal">
       <div class="modal-container">
         <div class="modal-icon">&#x26A0;&#xFE0F;</div>
-        <h2 class="modal-title">Duplicate Download</h2>
-        <p class="modal-message">This file is already being downloaded:</p>
+        <h2 class="modal-title">{t('Duplicate Download')}</h2>
+        <p class="modal-message">{t('This file is already being downloaded:')}</p>
         <p class="modal-filename" id="duplicateFilename">{filename()}</p>
         <div class="modal-actions">
-          <button class="modal-btn modal-btn-secondary" id="duplicateSkip" onClick={handleSkip}>Skip</button>
-          <button class="modal-btn modal-btn-primary" id="duplicateConfirm" onClick={handleConfirm}>Download Anyway</button>
+          <button class="modal-btn modal-btn-secondary" id="duplicateSkip" onClick={handleSkip}>{t('Skip')}</button>
+          <button class="modal-btn modal-btn-primary" id="duplicateConfirm" onClick={handleConfirm}>{t('Download Anyway')}</button>
         </div>
       </div>
     </div>

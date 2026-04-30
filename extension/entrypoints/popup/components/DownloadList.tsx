@@ -5,6 +5,7 @@ import type { ViewMode } from '../store';
 import DownloadItem from './DownloadItem';
 import ViewSwitch from './ViewSwitch';
 import SettingsView from './SettingsView';
+import { t } from '../../../lib/i18n';
 
 interface Props {
   activeDownloads: DownloadStatus[];
@@ -103,10 +104,10 @@ export default function DownloadList(props: Props) {
   );
   const emptyMessage = createMemo(() => {
     if (currentView() === 'history') {
-      return { title: 'No history downloads', hint: 'Completed downloads will appear here' };
+      return { title: t('No history downloads'), hint: t('Completed downloads will appear here') };
     }
 
-    return { title: 'No active downloads', hint: 'Downloads will appear here automatically' };
+    return { title: t('No active downloads'), hint: t('Downloads will appear here automatically') };
   });
 
   return (

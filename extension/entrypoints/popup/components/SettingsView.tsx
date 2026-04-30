@@ -13,6 +13,7 @@ import {
   notificationsEnabled, setNotificationsEnabled,
   minFileSize, setMinFileSize,
 } from '../store';
+import { t } from '../../../lib/i18n';
 import {
   handleAddProfile as _handleAddProfile,
   handleSwitchProfile as _handleSwitchProfile,

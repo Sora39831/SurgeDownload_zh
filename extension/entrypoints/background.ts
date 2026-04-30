@@ -8,6 +8,7 @@ import {
   migrateServerProfiles,
   resolveActiveServerUrl,
 } from '../lib/storage';
+import { t } from '../lib/i18n';
 import {
   buildDownloadRequestBody,
   buildEventStreamHeaders,
