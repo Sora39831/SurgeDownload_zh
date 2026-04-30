@@ -18,13 +18,13 @@ RUN if [ "${TARGETOS:-linux}" != "linux" ]; then \
     esac && \
     if [ -z "${SURGE_VERSION}" ]; then \
       echo "Fetching latest surge release..."; \
-      SURGE_VERSION=$(curl -fsSL https://api.github.com/repos/SurgeDM/Surge/releases/latest | jq -r .tag_name | sed 's/^v//'); \
+      SURGE_VERSION=$(curl -fsSL https://api.github.com/repos/Sora39831/SurgeDownload_zh/releases/latest | jq -r .tag_name | sed 's/^v//'); \
     else \
       echo "Using specified surge version: ${SURGE_VERSION}"; \
     fi && \
     echo "Downloading surge v${SURGE_VERSION} for ${TARGETOS:-linux}/${SURGE_ARCH}" && \
     curl -fsSL -o /tmp/surge.tar.gz \
-      "https://github.com/SurgeDM/Surge/releases/download/v${SURGE_VERSION}/surge_${SURGE_VERSION}_linux_${SURGE_ARCH}.tar.gz" && \
+      "https://github.com/Sora39831/SurgeDownload_zh/releases/download/v${SURGE_VERSION}/surge_${SURGE_VERSION}_linux_${SURGE_ARCH}.tar.gz" && \
     mkdir -p /tmp/surge-extract /out && \
     tar -xzf /tmp/surge.tar.gz -C /tmp/surge-extract && \
     install -m 0755 /tmp/surge-extract/surge /out/surge
@@ -50,7 +50,7 @@ WORKDIR /downloads
 
 VOLUME ["/downloads", "/var/lib/surge"]
 
-LABEL org.opencontainers.image.source="https://github.com/SurgeDM/Surge"
+LABEL org.opencontainers.image.source="https://github.com/Sora39831/SurgeDownload_zh"
 LABEL org.opencontainers.image.description="Surge download manager"
 LABEL org.opencontainers.image.licenses="MIT"
 

@@ -41,9 +41,9 @@ archives:
 homebrew_casks:
   - name: surge
     repository:
-      owner: SurgeDM
+      owner: Sora39831
       name: homebrew-tap
-    homepage: "https://github.com/SurgeDM/Surge"
+    homepage: "https://github.com/Sora39831/SurgeDownload_zh"
     
     description: "Blazing fast TUI download manager built in Go for power users"
     license: "MIT"

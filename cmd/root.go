@@ -441,7 +441,7 @@ func queueInitialRootDownloads(args []string, opts rootRunOptions) {
 var rootCmd = &cobra.Command{
 	Use:           "surge [url]...",
 	Short:         "Blazing fast TUI download manager built in Go for power users",
-	Long:          `Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/SurgeDM/Surge`,
+	Long:          `Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/Sora39831/SurgeDownload_zh`,
 	Version:       Version,
 	Args:          cobra.ArbitraryArgs,
 	SilenceErrors: true, //errors are printed in main.go this prevents double printing

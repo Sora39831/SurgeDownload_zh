@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/SurgeDM/Surge/internal/types"
+	"github.com/Sora39831/SurgeDownload_zh/internal/types"
 	"github.com/SurgeDM/Surge/internal/utils"
 	"github.com/pelletier/go-toml/v2"
 )
