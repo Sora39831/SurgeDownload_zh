@@ -1,6 +1,7 @@
 package tui
 
 import (
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 )
@@ -13,7 +14,7 @@ func (m *RootModel) renderLogBox(width, height int) string {
 
 	var innerContent string
 	if len(m.logEntries) == 0 {
-		innerContent = renderEmptyMessage(width-components.BorderFrameWidth, height-components.BorderFrameHeight, "Activity log is empty")
+		innerContent = renderEmptyMessage(width-components.BorderFrameWidth, height-components.BorderFrameHeight, i18n.T("Activity log is empty"))
 	} else {
 		innerContent = m.logViewport.View()
 	}
@@ -23,5 +24,5 @@ func (m *RootModel) renderLogBox(width, height int) string {
 		logBorderColor = colors.Pink()
 	}
 
-	return renderBtopBox(PaneTitleStyle.Render(" Activity Log "), "", innerContent, width, height, logBorderColor)
+	return renderBtopBox(PaneTitleStyle.Render(i18n.T(" Activity Log ")), "", innerContent, width, height, logBorderColor)
 }

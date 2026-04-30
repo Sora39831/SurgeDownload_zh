@@ -3,6 +3,7 @@ package tui
 import (
 	"charm.land/lipgloss/v2"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 )
@@ -29,11 +30,11 @@ func (m *RootModel) renderDownloadsBox(width, height int, stats ViewStats) strin
 		var searchDisplay string
 		if m.searchActive {
 			searchDisplay = m.searchInput.View() +
-				lipgloss.NewStyle().Foreground(colors.Gray()).Render(" [esc exit]")
+				lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T(" [esc exit]"))
 		} else {
 			// Show query with clear hint
 			searchDisplay = lipgloss.NewStyle().Foreground(colors.Pink()).Render(m.searchQuery) +
-				lipgloss.NewStyle().Foreground(colors.Gray()).Render(" [f to clear]")
+				lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T(" [f to clear]"))
 		}
 		// Pad the search bar to look like a title block
 		leftTitle = " " + lipgloss.JoinHorizontal(lipgloss.Left, searchIcon, searchDisplay) + " "
@@ -62,9 +63,9 @@ func (m *RootModel) renderDownloadsBox(width, height int, stats ViewStats) strin
 	var listContent string
 	if len(m.list.Items()) == 0 {
 		if m.searchQuery != "" {
-			listContent = renderEmptyMessage(listContentWidth, listContentHeight, "No matching downloads")
+			listContent = renderEmptyMessage(listContentWidth, listContentHeight, i18n.T("No matching downloads"))
 		} else {
-			listContent = renderEmptyMessage(listContentWidth, listContentHeight, "No downloads yet")
+			listContent = renderEmptyMessage(listContentWidth, listContentHeight, i18n.T("No downloads yet"))
 		}
 	} else {
 		listContent = m.list.View()
@@ -79,5 +80,5 @@ func (m *RootModel) renderDownloadsBox(width, height int, stats ViewStats) strin
 		downloadsBorderColor = colors.Gray()
 	}
 
-	return renderBtopBox(leftTitle, PaneTitleStyle.Render(" Downloads "), innerContent, width, height, downloadsBorderColor)
+	return renderBtopBox(leftTitle, PaneTitleStyle.Render(i18n.T(" Downloads ")), innerContent, width, height, downloadsBorderColor)
 }

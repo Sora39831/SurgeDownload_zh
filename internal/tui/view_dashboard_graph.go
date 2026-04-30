@@ -6,6 +6,7 @@ import (
 
 	"charm.land/lipgloss/v2"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 	"github.com/SurgeDM/Surge/internal/utils"
@@ -71,9 +72,9 @@ func (m *RootModel) renderGraphBox(width, height int, stats ViewStats) string {
 	buildAxisLines := func(h int, axisStyle lipgloss.Style) []string {
 		label := func(v float64) string {
 			if v <= 0 {
-				return "0 MB/s"
+				return i18n.T("0 MB/s")
 			}
-			return fmt.Sprintf("%.1f MB/s", v)
+			return fmt.Sprintf(i18n.T("%.1f MB/s"), v)
 		}
 
 		axisLines := make([]string, h)
@@ -144,13 +145,13 @@ func (m *RootModel) renderGraphBox(width, height int, stats ViewStats) string {
 		dimStyle := lipgloss.NewStyle().Foreground(colors.Gray())
 
 		statsContent := lipgloss.JoinVertical(lipgloss.Left,
-			fmt.Sprintf("%s %s", valueStyle.Render("\u25bc"), valueStyle.Render(fmt.Sprintf("%.2f MB/s", currentSpeed))),
-			dimStyle.Render(fmt.Sprintf("  (%.0f Mbps)", speedMbps)),
+			fmt.Sprintf("%s %s", valueStyle.Render("\u25bc"), valueStyle.Render(fmt.Sprintf(i18n.T("%.2f MB/s"), currentSpeed))),
+			dimStyle.Render(fmt.Sprintf(i18n.T("  (%.0f Mbps)"), speedMbps)),
 			"",
-			fmt.Sprintf("%s %s", labelStyleStats.Render("Top:"), valueStyle.Render(fmt.Sprintf("%.2f", topSpeed))),
-			dimStyle.Render(fmt.Sprintf("  (%.0f Mbps)", topMbps)),
+			fmt.Sprintf("%s %s", labelStyleStats.Render(i18n.T("Top:")), valueStyle.Render(fmt.Sprintf("%.2f", topSpeed))),
+			dimStyle.Render(fmt.Sprintf(i18n.T("  (%.0f Mbps)"), topMbps)),
 			"",
-			fmt.Sprintf("%s %s", labelStyleStats.Render("Total:"), valueStyle.Render(utils.ConvertBytesToHumanReadable(stats.TotalDownloaded))),
+			fmt.Sprintf("%s %s", labelStyleStats.Render(i18n.T("Total:")), valueStyle.Render(utils.ConvertBytesToHumanReadable(stats.TotalDownloaded))),
 		)
 
 		statsBoxStyle := lipgloss.NewStyle().
@@ -175,5 +176,5 @@ func (m *RootModel) renderGraphBox(width, height int, stats ViewStats) string {
 	}
 
 	innerContent := lipgloss.JoinVertical(lipgloss.Left, "", graphWithAxis, "")
-	return renderBtopBox(PaneTitleStyle.Render(" Network Activity "), "", innerContent, width, height, colors.Cyan())
+	return renderBtopBox(PaneTitleStyle.Render(i18n.T(" Network Activity ")), "", innerContent, width, height, colors.Cyan())
 }

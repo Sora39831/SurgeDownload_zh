@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"charm.land/lipgloss/v2"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 )
@@ -44,7 +45,7 @@ func (m *RootModel) renderHeaderBox(width, height int) string {
 		// Just show the address when narrow
 		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" " + serverAddr)
 	} else if m.IsRemote {
-		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" Connected to " + serverAddr)
+		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(i18n.T(" Connected to ") + serverAddr)
 	} else {
 		statusLine = lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true).Render(" Serving at " + serverAddr)
 	}
