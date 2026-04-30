@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"github.com/SurgeDM/Surge/internal/i18n"
+	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +22,7 @@ var pauseCmd = &cobra.Command{
 		all, _ := cmd.Flags().GetBool("all")
 
 		if !all && len(args) == 0 {
-			return fmt.Errorf(i18n.T("provide a download ID or use --all"))
+			return errors.New(i18n.T("provide a download ID or use --all"))
 		}
 
 		if all {

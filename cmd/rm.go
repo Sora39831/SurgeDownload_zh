@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"github.com/SurgeDM/Surge/internal/i18n"
+	"errors"
 	"fmt"
 	"net/http"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/engine/state"
 	"github.com/spf13/cobra"
 )
@@ -23,7 +24,7 @@ var rmCmd = &cobra.Command{
 		clean, _ := cmd.Flags().GetBool("clean")
 
 		if !clean && len(args) == 0 {
-			return fmt.Errorf(i18n.T("provide a download ID or use --clean"))
+			return errors.New(i18n.T("provide a download ID or use --clean"))
 		}
 
 		if clean {
