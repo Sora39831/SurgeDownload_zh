@@ -4,6 +4,7 @@ import (
 	"image/color"
 	"sync"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 
 	"charm.land/lipgloss/v2"
@@ -72,9 +73,9 @@ func (s DownloadStatus) Icon() string {
 // Label returns the status label
 func (s DownloadStatus) Label() string {
 	if info, ok := statusMap[s]; ok {
-		return info.label
+		return i18n.T(info.label)
 	}
-	return "Unknown"
+	return i18n.T("Unknown")
 }
 
 // Color returns the status color
