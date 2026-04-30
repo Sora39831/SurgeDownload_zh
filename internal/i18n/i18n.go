@@ -1,8 +1,14 @@
+// Package i18n provides a minimal translation engine using English-as-key.
+// Translations are loaded from embedded JSON files keyed by locale code.
+// Call Init(lang) at startup, then use T(key) to translate.
+// Only language files named by locale code (e.g., zh-CN.json) should exist in this directory.
 package i18n
 
 import (
 	"embed"
 	"encoding/json"
+	"errors"
+	"io/fs"
 	"sync"
 )
 
@@ -27,7 +33,10 @@ func Init(lang string) error {
 
 	data, err := localeFS.ReadFile(lang + ".json")
 	if err != nil {
-		// If file doesn't exist, fall back to identity map (English)
+		if !errors.Is(err, fs.ErrNotExist) {
+			return err
+		}
+		// File doesn't exist, fall back to identity map (English)
 		mu.Lock()
 		messages = nil
 		mu.Unlock()

@@ -1,6 +1,7 @@
 package i18n
 
 import (
+	"sync"
 	"testing"
 )
 
@@ -45,6 +46,24 @@ func TestT_EnglishModeReturnsKey(t *testing.T) {
 	if result != "Queued" {
 		t.Errorf("expected 'Queued', got '%s'", result)
 	}
+}
+
+func TestT_ConcurrentSafe(t *testing.T) {
+	if err := SetLanguage("zh-CN"); err != nil {
+		t.Fatalf("SetLanguage failed: %v", err)
+	}
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < 100; j++ {
+				_ = T("Queued")
+				_ = T("Some nonexistent key")
+			}
+		}()
+	}
+	wg.Wait()
 }
 
 func TestSetLanguage(t *testing.T) {
