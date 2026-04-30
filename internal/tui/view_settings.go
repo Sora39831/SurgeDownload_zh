@@ -898,6 +898,8 @@ func (m *RootModel) resetSettingToDefault(category, key string, defaults *config
 			m.Settings.General.AllowRemoteOpenActions = defaults.General.AllowRemoteOpenActions
 		case "live_speed_graph":
 			m.Settings.General.LiveSpeedGraph = defaults.General.LiveSpeedGraph
+		case "language":
+			m.Settings.General.Language = defaults.General.Language
 		case "theme":
 			m.Settings.General.Theme = defaults.General.Theme
 		case "theme_path":
