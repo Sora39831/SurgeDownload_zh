@@ -10,7 +10,7 @@ import (
 	"github.com/SurgeDM/Surge/internal/config"
 )
 
-const newIssueURL = "https://github.com/SurgeDM/Surge/issues/new"
+const newIssueURL = "https://github.com/Sora39831/SurgeDownload_zh/issues/new"
 
 const extensionTemplate = "extension_bug_report.md"
 

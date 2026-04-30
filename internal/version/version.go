@@ -13,7 +13,7 @@ import (
 
 const (
 	// GitHubAPIURL is the endpoint for fetching the latest release
-	GitHubAPIURL = "https://api.github.com/repos/SurgeDM/Surge/releases/latest"
+	GitHubAPIURL = "https://api.github.com/repos/Sora39831/SurgeDownload_zh/releases/latest"
 	// RequestTimeout is the timeout for the GitHub API request
 	RequestTimeout = 10 * time.Second
 )

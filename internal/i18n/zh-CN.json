@@ -136,7 +136,7 @@
   "Resumed: %s [%s]": "已恢复：%s [%s]",
   "Removed: %s [%s]": "已删除：%s [%s]",
   "Blazing fast TUI download manager built in Go for power users": "使用 Go 语言构建的极速 TUI 下载管理器",
-  "Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/SurgeDM/Surge": "Surge 是一款使用 Go 语言构建的极速 TUI 下载管理器，专为高级用户打造。更多信息：https://github.com/SurgeDM/Surge",
+  "Surge is a blazing fast TUI download manager built in Go for power users. Find more info here: https://github.com/Sora39831/SurgeDownload_zh": "Surge 是一款使用 Go 语言构建的极速 TUI 下载管理器，专为高级用户打造。更多信息：https://github.com/Sora39831/SurgeDownload_zh",
   "Add a new download to the running Surge instance": "向正在运行的 Surge 实例添加新下载",
   "Add one or more URLs to the download queue of a running Surge instance.": "将一个或多个 URL 添加到正在运行的 Surge 实例的下载队列。",
   "Server host to connect/control (or set SURGE_HOST), e.g. 127.0.0.1:1700": "要连接/控制的服务器主机（或设置 SURGE_HOST 环境变量），例如 127.0.0.1:1700",
@@ -231,7 +231,7 @@
   "Update the source URL of a download by its ID. It must be paused or in an error state to be refreshed.": "按 ID 更新下载的源 URL。下载必须处于暂停或错误状态才能刷新。",
   "Watch mode: refresh every second": "监视模式：每秒刷新",
   "\\nReceived %s. Shutting down...\\n": "\\n收到 %s。正在关闭...\\n",
-  "error acquiring lock: %w": "获取锁时出错：%w",
+  "error acquiring lock": "获取锁时出错",
   "provide a download ID or use --all": "提供下载 ID 或使用 --all",
   "provide a download ID or use --clean": "提供下载 ID 或使用 --clean",
   "surge is already running. Use 'surge add <url>' to add a download to the active instance": "Surge 已在运行。使用 'surge add <url>' 向活动实例添加下载"
