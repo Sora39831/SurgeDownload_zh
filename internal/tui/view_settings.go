@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/SurgeDM/Surge/internal/config"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 	"github.com/SurgeDM/Surge/internal/utils"
@@ -26,8 +27,8 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(DefaultPaddingY, DefaultPaddingX*2).
 			Foreground(colors.LightGray()).
-			Render("Terminal too small for settings view")
-		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
+			Render(i18n.T("Terminal too small for settings view"))
+		box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Settings ")), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
 
@@ -36,8 +37,8 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(1, 2).
 			Foreground(colors.LightGray()).
-			Render("No settings categories available")
-		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
+			Render(i18n.T("No settings categories available"))
+		box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Settings ")), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
 
@@ -56,8 +57,8 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(1, 2).
 			Foreground(colors.LightGray()).
-			Render("No settings available in this category")
-		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
+			Render(i18n.T("No settings available in this category"))
+		box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Settings ")), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
 
@@ -83,7 +84,7 @@ func (m RootModel) viewSettings() string {
 			Foreground(colors.StateError()).
 			Bold(true).
 			Padding(0, 2).
-			Render("\u2716 " + m.settingsError)
+			Render("\u2716 " + i18n.T(m.settingsError))
 	}
 
 	errorHeight := lipgloss.Height(errorLine)
@@ -119,7 +120,7 @@ func (m RootModel) viewSettings() string {
 
 	fullContent := lipgloss.JoinVertical(lipgloss.Left, parts...)
 
-	box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", fullContent, width, height, colors.Magenta())
+	box := renderBtopBox(PaneTitleStyle.Render(i18n.T(" Settings ")), "", fullContent, width, height, colors.Magenta())
 	return m.renderModalWithOverlay(box)
 }
 
@@ -152,7 +153,7 @@ func (m RootModel) renderSettingsTabBar(categories []string, activeTab int, maxW
 			if useShort {
 				label = shortSettingsCategoryLabel(cat)
 			}
-			tabs = append(tabs, components.Tab{Label: label, Count: -1})
+			tabs = append(tabs, components.Tab{Label: i18n.T(label), Count: -1})
 		}
 		return tabs
 	}
@@ -185,10 +186,10 @@ func (m RootModel) renderSettingsHelp(width int) string {
 
 	helpText := m.help.View(m.keys.Settings)
 	if width < 60 {
-		helpText = "esc: save/close  tab: next tab  enter: edit"
+		helpText = i18n.T("esc: save/close  tab: next tab  enter: edit")
 	}
 	if width < 40 {
-		helpText = "esc close | enter edit"
+		helpText = i18n.T("esc close | enter edit")
 	}
 
 	return lipgloss.NewStyle().
@@ -230,7 +231,7 @@ func renderSettingsListViewport(settingsMeta []config.SettingMeta, selectedRow, 
 	}
 
 	if len(settingsMeta) == 0 {
-		return formatSettingsBlock("(No settings)", innerWidth, rows)
+		return formatSettingsBlock(i18n.T("(No settings)"), innerWidth, rows)
 	}
 
 	if selectedRow < 0 {
@@ -299,7 +300,7 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		rows = 1
 	}
 	if len(settingsMeta) == 0 || selectedRow < 0 || selectedRow >= len(settingsMeta) {
-		return formatSettingsBlock("No setting selected", innerWidth, rows)
+		return formatSettingsBlock(i18n.T("No setting selected"), innerWidth, rows)
 	}
 
 	meta := settingsMeta[selectedRow]
@@ -315,34 +316,34 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		case "auth_token":
 			token := GetAuthToken()
 			if token == "" {
-				valueStr = lipgloss.NewStyle().Foreground(colors.Gray()).Render("(Not generated yet)")
+				valueStr = lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T("(Not generated yet)"))
 			} else {
 				if m.ExtensionTokenCopied {
-					valueStr = lipgloss.NewStyle().Foreground(colors.StateDownloading()).Bold(true).Render("Copied!")
+					valueStr = lipgloss.NewStyle().Foreground(colors.StateDownloading()).Bold(true).Render(i18n.T("Copied!"))
 				} else {
 					displayToken := token
 					if len(token) > 16 {
 						displayToken = token[:8] + "..." + token[len(token)-8:]
 					}
-					valueStr = displayToken + lipgloss.NewStyle().Foreground(colors.Gray()).Render(" [Enter to Copy]")
+					valueStr = displayToken + lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T(" [Enter to Copy]"))
 				}
 			}
 		case "link":
-			valueStr = lipgloss.NewStyle().Foreground(colors.Cyan()).Render("Open [Enter]")
+			valueStr = lipgloss.NewStyle().Foreground(colors.Cyan()).Render(i18n.T("Open [Enter]"))
 		default:
 			valueStr = formatSettingValueForEdit(value, meta.Type, meta.Key, true) + unitStyle.Render(unit)
 			if meta.Key == "max_global_connections" {
-				valueStr += " (Ignored)"
+				valueStr += i18n.T(" (Ignored)")
 			}
 		}
 	}
 
-	valueLabel := "Value: "
+	valueLabel := i18n.T("Value: ")
 	if (meta.Key == "default_download_dir" || meta.Key == "theme_path") && !m.SettingsIsEditing {
-		valueLabel = "[Tab] Browse: "
+		valueLabel = i18n.T("[Tab] Browse: ")
 	}
 	if meta.Type == "link" {
-		valueLabel = "Action: "
+		valueLabel = i18n.T("Action: ")
 	}
 
 	valueLabelStyle := lipgloss.NewStyle().Foreground(colors.Cyan()).Bold(true)
@@ -764,17 +765,17 @@ func (m RootModel) getSettingUnit() string {
 	key := m.getCurrentSettingKey()
 	switch key {
 	case "min_chunk_size":
-		return " MB"
+		return i18n.T(" MB")
 	case "worker_buffer_size":
-		return " KB"
+		return i18n.T(" KB")
 	case "dial_hedge_count":
-		return " conns"
+		return i18n.T(" conns")
 	case "max_task_retries":
-		return " retries"
+		return i18n.T(" retries")
 	case "slow_worker_grace_period", "stall_timeout":
-		return " seconds"
+		return i18n.T(" seconds")
 	case "slow_worker_threshold", "speed_ema_alpha":
-		return " (0.0-1.0)"
+		return i18n.T(" (0.0-1.0)")
 	default:
 		return ""
 	}
@@ -805,11 +806,11 @@ func formatSettingValueForEdit(value interface{}, typ, key string, truncate bool
 		if v, ok := value.(int); ok {
 			switch v {
 			case config.ThemeAdaptive:
-				return "< System >"
+				return i18n.T("< System >")
 			case config.ThemeLight:
-				return "< Light >"
+				return i18n.T("< Light >")
 			case config.ThemeDark:
-				return "< Dark >"
+				return i18n.T("< Dark >")
 			}
 		}
 	}
@@ -828,9 +829,9 @@ func formatSettingValue(value interface{}, typ string, truncate bool) string {
 	case "bool":
 		if b, ok := value.(bool); ok {
 			if b {
-				return "True"
+				return i18n.T("True")
 			}
-			return "False"
+			return i18n.T("False")
 		}
 	case "duration":
 		if d, ok := value.(time.Duration); ok {
@@ -853,7 +854,7 @@ func formatSettingValue(value interface{}, typ string, truncate bool) string {
 	case "string", "link":
 		if s, ok := value.(string); ok {
 			if s == "" {
-				return "(default)"
+				return i18n.T("(default)")
 			}
 			if truncate {
 				return utils.TruncateMiddle(s, 30)
