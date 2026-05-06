@@ -38,18 +38,3 @@ archives:
       - LICENSE
       - README.md
 
-homebrew_casks:
-  - name: surge
-    repository:
-      owner: Sora39831
-      name: homebrew-tap
-    homepage: "https://github.com/Sora39831/SurgeDownload_zh"
-    
-    description: "Blazing fast TUI download manager built in Go for power users"
-    license: "MIT"
-    hooks:
-      post:
-        install: |
-          if OS.mac?
-            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/surge"]
-          end
