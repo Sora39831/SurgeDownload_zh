@@ -368,7 +368,7 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		restartNotice := lipgloss.NewStyle().
 			Foreground(colors.Orange()).
 			Bold(true).
-			Render("\u21ba Requires Restart")
+			Render(i18n.T("\u21ba Requires Restart"))
 		desc = restartNotice + "\n" + desc
 	}
 

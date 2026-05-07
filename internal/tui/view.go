@@ -697,7 +697,7 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 	var errorSection string
 	if d.err != nil {
 		errorSection = sectionStyle.
-			Render(lipgloss.NewStyle().Foreground(colors.StateError()).Render("Error: " + d.err.Error()))
+			Render(lipgloss.NewStyle().Foreground(colors.StateError()).Render(i18n.T("Error") + ": " + d.err.Error()))
 	}
 
 	// Combine with Dividers
@@ -812,7 +812,7 @@ func (m RootModel) viewQuitConfirm() string {
 	}
 
 	yesBtn := renderBtn(yesPad, yesFirst, yesRest, i18n.T("Y"), i18n.T("ep!"))
-	noBtn := renderBtn(noPad, noFirst, noRest, "N", "ope")
+	noBtn := renderBtn(noPad, noFirst, noRest, i18n.T("N"), i18n.T("ope"))
 
 	buttons := lipgloss.JoinHorizontal(lipgloss.Center, yesBtn, "     ", noBtn)
 	centeredButtons := lipgloss.NewStyle().Width(innerWidth).Align(lipgloss.Center).Render(buttons)
@@ -820,14 +820,14 @@ func (m RootModel) viewQuitConfirm() string {
 	stats := m.ComputeViewStats()
 	detail := ""
 	if stats.ActiveCount > 0 {
-		detail = fmt.Sprintf("%d active download(s) will be paused", stats.ActiveCount)
+		detail = fmt.Sprintf(i18n.T("%d active download(s) will be paused"), stats.ActiveCount)
 	}
 
 	helpStyle := lipgloss.NewStyle().Foreground(colors.Gray()).Width(innerWidth).Align(lipgloss.Center)
 	helpText := helpStyle.Render(m.help.View(m.keys.QuitConfirm))
 
 	var lines []string
-	lines = append(lines, messageStyle.Render("Are you sure you want to quit?"))
+	lines = append(lines, messageStyle.Render(i18n.T("Are you sure you want to quit?")))
 	if detail != "" {
 		lines = append(lines, detailStyle.Render(detail))
 	}
@@ -853,7 +853,7 @@ func (m RootModel) viewQuitConfirm() string {
 	}
 
 	content := lipgloss.JoinVertical(lipgloss.Left, lines...)
-	return renderBtopBox(PaneTitleStyle.Render(" Quit Surge "), "", content, w, h, colors.Pink())
+	return renderBtopBox(PaneTitleStyle.Render(i18n.T(" Quit Surge ")), "", content, w, h, colors.Pink())
 }
 
 func (m RootModel) viewRestartConfirm() string {
@@ -902,8 +902,8 @@ func (m RootModel) viewRestartConfirm() string {
 	helpText := helpStyle.Render(m.help.View(m.keys.QuitConfirm))
 
 	var lines []string
-	lines = append(lines, messageStyle.Render("Settings saved!"))
-	lines = append(lines, detailStyle.Render("Restart now to take effect?"))
+	lines = append(lines, messageStyle.Render(i18n.T("Settings saved!")))
+	lines = append(lines, detailStyle.Render(i18n.T("Restart now to take effect?")))
 	lines = append(lines, "")
 	lines = append(lines, "")
 	lines = append(lines, centeredButtons)
@@ -925,7 +925,7 @@ func (m RootModel) viewRestartConfirm() string {
 	}
 
 	content := lipgloss.JoinVertical(lipgloss.Left, lines...)
-	return renderBtopBox(PaneTitleStyle.Render(" Restart Required "), "", content, w, h, colors.Orange())
+	return renderBtopBox(PaneTitleStyle.Render(i18n.T(" Restart Required ")), "", content, w, h, colors.Orange())
 }
 
 func (m RootModel) viewCategoryResetConfirm() string {

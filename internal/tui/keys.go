@@ -1,6 +1,10 @@
 package tui
 
-import "charm.land/bubbles/v2/key"
+import (
+	"github.com/SurgeDM/Surge/internal/i18n"
+
+	"charm.land/bubbles/v2/key"
+)
 
 // KeyMap defines the keybindings for the entire application
 type KeyMap struct {
@@ -478,7 +482,337 @@ var Keys = KeyMap{
 	},
 }
 
-// ShortHelp returns keybindings to show in the mini help view
+// TranslatedKeys returns a KeyMap with all help descriptions translated via i18n.T.
+// Call this after i18n.Init() has been called. The package-level Keys variable
+// retains English fallbacks for use before i18n is ready.
+func TranslatedKeys() KeyMap {
+	return KeyMap{
+		Dashboard: DashboardKeyMap{
+			TabQueued: key.NewBinding(
+				key.WithKeys("q"),
+				key.WithHelp("q", i18n.T("queued tab")),
+			),
+			TabActive: key.NewBinding(
+				key.WithKeys("w"),
+				key.WithHelp("w", i18n.T("active tab")),
+			),
+			TabDone: key.NewBinding(
+				key.WithKeys("e"),
+				key.WithHelp("e", i18n.T("done tab")),
+			),
+			NextTab: key.NewBinding(
+				key.WithKeys("tab"),
+				key.WithHelp("tab", i18n.T("next tab")),
+			),
+			Add: key.NewBinding(
+				key.WithKeys("a"),
+				key.WithHelp("a", i18n.T("add download")),
+			),
+			BatchImport: key.NewBinding(
+				key.WithKeys("b", "B"),
+				key.WithHelp("b", i18n.T("batch import")),
+			),
+			Search: key.NewBinding(
+				key.WithKeys("f"),
+				key.WithHelp("f", i18n.T("search")),
+			),
+			Pause: key.NewBinding(
+				key.WithKeys("p"),
+				key.WithHelp("p", i18n.T("pause/resume")),
+			),
+			Refresh: key.NewBinding(
+				key.WithKeys("r"),
+				key.WithHelp("r", i18n.T("refresh url")),
+			),
+			Delete: key.NewBinding(
+				key.WithKeys("x"),
+				key.WithHelp("x", i18n.T("delete")),
+			),
+			Settings: key.NewBinding(
+				key.WithKeys("s"),
+				key.WithHelp("s", i18n.T("settings")),
+			),
+			Log: key.NewBinding(
+				key.WithKeys("l"),
+				key.WithHelp("l", i18n.T("toggle log")),
+			),
+			ToggleHelp: key.NewBinding(
+				key.WithKeys("h"),
+				key.WithHelp("h", i18n.T("keybindings")),
+			),
+			ReportBug: key.NewBinding(
+				key.WithKeys("?"),
+				key.WithHelp("?", i18n.T("report bug")),
+			),
+			OpenFile: key.NewBinding(
+				key.WithKeys("o"),
+				key.WithHelp("o", i18n.T("open file")),
+			),
+			Quit: key.NewBinding(
+				key.WithKeys("ctrl+c", "ctrl+q"),
+				key.WithHelp("ctrl+q", i18n.T("quit")),
+			),
+			ForceQuit: key.NewBinding(
+				key.WithKeys("ctrl+c"),
+				key.WithHelp("ctrl+c", i18n.T("force quit")),
+			),
+			CategoryFilter: key.NewBinding(
+				key.WithKeys("c"),
+				key.WithHelp("c", i18n.T("category")),
+			),
+			Up: key.NewBinding(
+				key.WithKeys("up", "k"),
+				key.WithHelp("↑/k", i18n.T("up")),
+			),
+			Down: key.NewBinding(
+				key.WithKeys("down", "j"),
+				key.WithHelp("↓/j", i18n.T("down")),
+			),
+			LogUp: key.NewBinding(
+				key.WithKeys("up", "k"),
+				key.WithHelp("↑/k", i18n.T("scroll up")),
+			),
+			LogDown: key.NewBinding(
+				key.WithKeys("down", "j"),
+				key.WithHelp("↓/j", i18n.T("scroll down")),
+			),
+			LogTop: key.NewBinding(
+				key.WithKeys("g"),
+				key.WithHelp("g", i18n.T("top")),
+			),
+			LogBottom: key.NewBinding(
+				key.WithKeys("G"),
+				key.WithHelp("G", i18n.T("bottom")),
+			),
+			LogClose: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("close log")),
+			),
+		},
+		Input: InputKeyMap{
+			Tab: key.NewBinding(
+				key.WithKeys("tab"),
+				key.WithHelp("tab", i18n.T("browse/next")),
+			),
+			Enter: key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", i18n.T("confirm/next")),
+			),
+			Esc: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+			Up: key.NewBinding(
+				key.WithKeys("up"),
+				key.WithHelp("↑", i18n.T("previous")),
+			),
+			Down: key.NewBinding(
+				key.WithKeys("down"),
+				key.WithHelp("↓", i18n.T("next")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+		},
+		FilePicker: FilePickerKeyMap{
+			UseDir: key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", i18n.T("use current")),
+			),
+			GotoHome: key.NewBinding(
+				key.WithKeys("h", "H"),
+				key.WithHelp("h", i18n.T("home")),
+			),
+			Back: key.NewBinding(
+				key.WithKeys("left"),
+				key.WithHelp("←", i18n.T("back")),
+			),
+			Forward: key.NewBinding(
+				key.WithKeys("right"),
+				key.WithHelp("→", i18n.T("open")),
+			),
+			Open: key.NewBinding(
+				key.WithKeys("."),
+				key.WithHelp(".", i18n.T("select highlighted")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+		},
+		Duplicate: DuplicateKeyMap{
+			Continue: key.NewBinding(
+				key.WithKeys("c", "C"),
+				key.WithHelp("c", i18n.T("continue")),
+			),
+			Focus: key.NewBinding(
+				key.WithKeys("f", "F"),
+				key.WithHelp("f", i18n.T("focus existing")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("x", "X", "esc"),
+				key.WithHelp("x", i18n.T("cancel")),
+			),
+		},
+		Extension: ExtensionKeyMap{
+			Confirm: key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", i18n.T("confirm")),
+			),
+			Browse: key.NewBinding(
+				key.WithKeys("tab"),
+				key.WithHelp("tab", i18n.T("browse path")),
+			),
+			Next: key.NewBinding(
+				key.WithKeys("down"),
+				key.WithHelp("↓", i18n.T("next field")),
+			),
+			Prev: key.NewBinding(
+				key.WithKeys("up"),
+				key.WithHelp("↑", i18n.T("prev field")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+		},
+		Settings: SettingsKeyMap{
+			Tab1: key.NewBinding(
+				key.WithKeys("1"),
+				key.WithHelp("1", i18n.T("general")),
+			),
+			Tab2: key.NewBinding(
+				key.WithKeys("2"),
+				key.WithHelp("2", i18n.T("network")),
+			),
+			Tab3: key.NewBinding(
+				key.WithKeys("3"),
+				key.WithHelp("3", i18n.T("performance")),
+			),
+			Tab4: key.NewBinding(
+				key.WithKeys("4"),
+				key.WithHelp("4", i18n.T("categories")),
+			),
+			Tab5: key.NewBinding(
+				key.WithKeys("5"),
+				key.WithHelp("5", i18n.T("extension")),
+			),
+			NextTab: key.NewBinding(
+				key.WithKeys("right"),
+				key.WithHelp("→", i18n.T("next tab")),
+			),
+			PrevTab: key.NewBinding(
+				key.WithKeys("left"),
+				key.WithHelp("←", i18n.T("prev tab")),
+			),
+			Browse: key.NewBinding(
+				key.WithKeys("tab"),
+				key.WithHelp("tab", i18n.T("browse dir")),
+			),
+			Edit: key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", i18n.T("edit")),
+			),
+			Up: key.NewBinding(
+				key.WithKeys("up", "k"),
+				key.WithHelp("↑/k", i18n.T("up")),
+			),
+			Down: key.NewBinding(
+				key.WithKeys("down", "j"),
+				key.WithHelp("↓/j", i18n.T("down")),
+			),
+			Reset: key.NewBinding(
+				key.WithKeys("r", "R"),
+				key.WithHelp("r", i18n.T("reset")),
+			),
+			Close: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("save & close")),
+			),
+		},
+		SettingsEditor: SettingsEditorKeyMap{
+			Confirm: key.NewBinding(
+				key.WithKeys("enter"),
+				key.WithHelp("enter", i18n.T("confirm")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+		},
+		BatchConfirm: BatchConfirmKeyMap{
+			Confirm: key.NewBinding(
+				key.WithKeys("y", "Y", "enter"),
+				key.WithHelp("y", i18n.T("confirm")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("n", "N", "esc"),
+				key.WithHelp("n", i18n.T("cancel")),
+			),
+		},
+		Update: UpdateKeyMap{
+			OpenGitHub: key.NewBinding(
+				key.WithKeys("o", "O", "enter"),
+				key.WithHelp("o", i18n.T("open on github")),
+			),
+			IgnoreNow: key.NewBinding(
+				key.WithKeys("i", "I", "esc"),
+				key.WithHelp("i", i18n.T("ignore for now")),
+			),
+			NeverRemind: key.NewBinding(
+				key.WithKeys("n", "N"),
+				key.WithHelp("n", i18n.T("never remind")),
+			),
+		},
+		BugReport: BugReportKeyMap{
+			Core: key.NewBinding(
+				key.WithKeys("1", "c", "C"),
+				key.WithHelp("1", i18n.T("core report")),
+			),
+			Extension: key.NewBinding(
+				key.WithKeys("2", "e", "E"),
+				key.WithHelp("2", i18n.T("extension report")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc"),
+				key.WithHelp("esc", i18n.T("cancel")),
+			),
+		},
+		CategoryMgr: CategoryManagerKeyMap{
+			Up:     key.NewBinding(key.WithKeys("up", "k"), key.WithHelp("↑/k", i18n.T("up"))),
+			Down:   key.NewBinding(key.WithKeys("down", "j"), key.WithHelp("↓/j", i18n.T("down"))),
+			Edit:   key.NewBinding(key.WithKeys("enter"), key.WithHelp("enter", i18n.T("edit"))),
+			Add:    key.NewBinding(key.WithKeys("a"), key.WithHelp("a", i18n.T("add"))),
+			Delete: key.NewBinding(key.WithKeys("x"), key.WithHelp("x", i18n.T("delete"))),
+			Toggle: key.NewBinding(key.WithKeys("t"), key.WithHelp("t", i18n.T("toggle"))),
+			Tab:    key.NewBinding(key.WithKeys("tab"), key.WithHelp("tab", i18n.T("next field"))),
+			Close:  key.NewBinding(key.WithKeys("esc"), key.WithHelp("esc", i18n.T("save & close"))),
+		},
+		QuitConfirm: QuitConfirmKeyMap{
+			Left: key.NewBinding(
+				key.WithKeys("left", "h"),
+			),
+			Right: key.NewBinding(
+				key.WithKeys("right", "l", "tab"),
+			),
+			Yes: key.NewBinding(
+				key.WithKeys("y", "Y"),
+			),
+			No: key.NewBinding(
+				key.WithKeys("n", "N"),
+			),
+			Select: key.NewBinding(
+				key.WithKeys("enter", "space"),
+				key.WithHelp("y/enter", i18n.T("confirm")),
+			),
+			Cancel: key.NewBinding(
+				key.WithKeys("esc", "ctrl+c", "ctrl+q"),
+				key.WithHelp("n/esc", i18n.T("cancel")),
+			),
+		},
+	}
+}
 func (k DashboardKeyMap) ShortHelp() []key.Binding {
 	return []key.Binding{k.ToggleHelp, k.ReportBug}
 }

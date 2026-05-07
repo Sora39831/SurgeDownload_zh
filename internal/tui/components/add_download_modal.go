@@ -3,6 +3,7 @@ package components
 import (
 	"image/color"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/utils"
 
@@ -65,7 +66,7 @@ func (m AddDownloadModal) View() string {
 			if m.FocusedInput == i {
 				hintStyle = hintStyle.Foreground(colors.Pink())
 			}
-			row = lipgloss.JoinHorizontal(lipgloss.Left, row, hintStyle.Render("[Tab] Browse"))
+			row = lipgloss.JoinHorizontal(lipgloss.Left, row, hintStyle.Render(i18n.T("[Tab] Browse")))
 		}
 		content = append(content, row, "")
 	}

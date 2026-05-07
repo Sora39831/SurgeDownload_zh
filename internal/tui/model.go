@@ -426,7 +426,7 @@ func InitialRootModel(serverPort int, currentVersion string, service core.Downlo
 		searchInput:           searchInput,
 		urlUpdateInput:        urlUpdateInput,
 		catMgrInputs:          [4]textinput.Model{catNameInput, catDescInput, catPatternInput, catPathInput},
-		keys:                  Keys,
+		keys:                  TranslatedKeys(),
 		ServerPort:            serverPort,
 		CurrentVersion:        currentVersion,
 		CurrentCommit:         commitValue,
