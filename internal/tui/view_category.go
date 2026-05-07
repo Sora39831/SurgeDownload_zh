@@ -217,7 +217,7 @@ func (m RootModel) renderCategoryDetailView(cats []config.Category, cursor, inne
 			Foreground(colors.Gray()).
 			Width(innerWidth).
 			MaxWidth(innerWidth).
-			Render("Press Enter to create a new category\nor press 'a' to add.")
+			Render(i18n.T("Press Enter to create a new category\nor press 'a' to add."))
 		return formatSettingsBlock(msg, innerWidth, rows)
 	}
 

@@ -865,8 +865,8 @@ func (m RootModel) viewQuitConfirm() string {
 	}
 	w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 60, 10)
 	modal := components.ConfirmationModal{
-		Title:            "Quit Surge",
-		Message:          "Are you sure you want to quit?",
+		Title:            i18n.T("Quit Surge"),
+		Message:          i18n.T("Are you sure you want to quit?"),
 		Detail:           detail,
 		Keys:             m.keys.QuitConfirm,
 		Help:             m.help,
@@ -915,9 +915,9 @@ func (m RootModel) viewPurgeConfirm() string {
 	}
 
 	modal := components.ConfirmationModal{
-		Title:            "Purge Download",
-		Message:          "Permanently delete this download?",
-		Detail:           fmt.Sprintf("File: %s\nThis will also remove the downloaded file(s) from disk.", filename),
+		Title:            i18n.T("Purge Download"),
+		Message:          i18n.T("Permanently delete this download?"),
+		Detail:           fmt.Sprintf(i18n.T("File: %s\nThis will also remove the downloaded file(s) from disk."), filename),
 		Keys:             m.keys.QuitConfirm, // QuitConfirm works as a general yes/no
 		Help:             m.help,
 		BorderColor:      colors.Red(),
