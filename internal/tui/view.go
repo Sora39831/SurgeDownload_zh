@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
 	"github.com/SurgeDM/Surge/internal/utils"
@@ -682,7 +683,7 @@ func renderFocusedDetails(d *DownloadModel, w int, spinnerView string) string {
 		}
 		etaStr = "Done"
 	} else if d.resuming {
-		speedStr = i18n.T("Resuming..."
+		speedStr = i18n.T("Resuming...")
 		etaStr = "..."
 	} else if d.rateLimited {
 		speedStr = "Rate limited, retrying..."

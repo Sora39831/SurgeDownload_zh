@@ -27,6 +27,7 @@ import (
 
 	tea "charm.land/bubbletea/v2"
 	"github.com/google/uuid"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 

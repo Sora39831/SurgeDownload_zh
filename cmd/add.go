@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/SurgeDM/Surge/internal/utils"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/spf13/cobra"
 )
 

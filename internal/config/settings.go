@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Sora39831/SurgeDownload_zh/internal/types"
+	"github.com/SurgeDM/Surge/internal/types"
 	"github.com/SurgeDM/Surge/internal/utils"
 	"github.com/pelletier/go-toml/v2"
 )
@@ -48,6 +48,7 @@ type GeneralSettings struct {
 	ThemePath                    *Setting `json:"theme_path"`
 	LogRetentionCount            *Setting `json:"log_retention_count"`
 	LiveSpeedGraph               *Setting `json:"live_speed_graph"`
+	Language                     *Setting `json:"language"`
 }
 
 type NetworkSettings struct {
@@ -265,6 +266,7 @@ func (s *Settings) initializeCategoriesList() {
 				s.General.ThemePath,
 				s.General.LogRetentionCount,
 				s.General.LiveSpeedGraph,
+				s.General.Language,
 			},
 		},
 		{
@@ -654,6 +656,15 @@ func DefaultSettings() *Settings {
 				Type:         TypeBool,
 				DefaultValue: false,
 				Value:        false,
+			},
+			Language: &Setting{
+				Key:          "language",
+				Label:        "Language",
+				Description:  "Interface language (en, zh-CN). Restart required.",
+				Type:         TypeString,
+				NeedsRestart: true,
+				DefaultValue: "en",
+				Value:        "en",
 			},
 		},
 		Network: NetworkSettings{

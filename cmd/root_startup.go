@@ -61,7 +61,7 @@ func initializeGlobalState() error {
 		utils.CleanupLogs(retention)
 	}
 
-	if err := i18n.Init(getSettings().General.Language); err != nil {
+	if err := i18n.Init(config.Resolve[string](getSettings().General.Language)); err != nil {
 		utils.Debug("i18n init failed: %v", err)
 	}
 
