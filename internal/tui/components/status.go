@@ -145,9 +145,9 @@ func DetermineStatus(done bool, paused bool, hasError bool, started bool, resumi
 
 
 func init() {
-	statusMap[StatusQueued] = statusInfo{icon: "⋯", label: i18n.T("Queued")}
-	statusMap[StatusDownloading] = statusInfo{icon: "⬇", label: i18n.T("Downloading")}
-	statusMap[StatusPaused] = statusInfo{icon: "⏸", label: i18n.T("Paused")}
-	statusMap[StatusComplete] = statusInfo{icon: "✔", label: i18n.T("Completed")}
-	statusMap[StatusError] = statusInfo{icon: "✖", label: i18n.T("Error")}
+	statusMap[StatusQueued] = statusInfo{icon: "\u22ef", label: i18n.T("Queued")}
+	statusMap[StatusDownloading] = statusInfo{icon: "\u2b07", label: i18n.T("Downloading")}
+	statusMap[StatusPaused] = statusInfo{icon: "\u23f8", label: i18n.T("Paused")}
+	statusMap[StatusComplete] = statusInfo{icon: "\u2714", label: i18n.T("Completed")}
+	statusMap[StatusError] = statusInfo{icon: "\u2716", label: i18n.T("Error")}
 }
