@@ -27,7 +27,7 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(DefaultPaddingY, DefaultPaddingX*2).
 			Foreground(colors.LightGray()).
-			Render("Terminal too small for settings view")
+			Render(i18n.T("Terminal too small for settings view"))
 		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
@@ -37,7 +37,7 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(1, 2).
 			Foreground(colors.LightGray()).
-			Render("No settings categories available")
+			Render(i18n.T("No settings categories available"))
 		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
@@ -57,7 +57,7 @@ func (m RootModel) viewSettings() string {
 		content := lipgloss.NewStyle().
 			Padding(1, 2).
 			Foreground(colors.LightGray()).
-			Render("No settings available in this category")
+			Render(i18n.T("No settings available in this category"))
 		box := renderBtopBox(PaneTitleStyle.Render(" Settings "), "", content, width, height, colors.Magenta())
 		return m.renderModalWithOverlay(box)
 	}
@@ -147,15 +147,15 @@ func (m RootModel) viewSettings() string {
 func shortSettingsCategoryLabel(label string) string {
 	switch label {
 	case "General":
-		return "Gen"
+		return i18n.T("Gen")
 	case "Network":
-		return "Net"
+		return i18n.T("Net")
 	case "Performance":
-		return "Perf"
+		return i18n.T("Perf")
 	case "Categories":
-		return "Cats"
+		return i18n.T("Cats")
 	case "Extension":
-		return "Ext"
+		return i18n.T("Ext")
 	default:
 		return label
 	}
@@ -221,10 +221,10 @@ func (m RootModel) renderSettingsHelp(width int) string {
 
 	helpText := m.help.View(m.keys.Settings)
 	if width < 60 {
-		helpText = "esc: save/close  tab: next tab  enter: edit"
+		helpText = i18n.T("esc: save/close  tab: next tab  enter: edit")
 	}
 	if width < 40 {
-		helpText = "esc close | enter edit"
+		helpText = i18n.T("esc close | enter edit")
 	}
 
 	return lipgloss.NewStyle().
@@ -345,7 +345,7 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		rows = 1
 	}
 	if len(settingsMeta) == 0 || selectedRow < 0 || selectedRow >= len(settingsMeta) {
-		return formatSettingsBlock("No setting selected", innerWidth, rows)
+		return formatSettingsBlock(i18n.T("No setting selected"), innerWidth, rows)
 	}
 
 	meta := settingsMeta[selectedRow]
@@ -361,16 +361,16 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		case config.TypeAuthToken:
 			token := GetAuthToken()
 			if token == "" {
-				valueStr = lipgloss.NewStyle().Foreground(colors.Gray()).Render("(Not generated yet)")
+				valueStr = lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T("(Not generated yet)"))
 			} else {
 				if m.ExtensionTokenCopied {
-					valueStr = lipgloss.NewStyle().Foreground(colors.StateDownloading()).Bold(true).Render("Copied!")
+					valueStr = lipgloss.NewStyle().Foreground(colors.StateDownloading()).Bold(true).Render(i18n.T("Copied!"))
 				} else {
 					displayToken := token
 					if len(token) > 16 {
 						displayToken = token[:8] + "..." + token[len(token)-8:]
 					}
-					valueStr = displayToken + lipgloss.NewStyle().Foreground(colors.Gray()).Render(" [Enter to Copy]")
+					valueStr = displayToken + lipgloss.NewStyle().Foreground(colors.Gray()).Render(i18n.T(" [Enter to Copy]"))
 				}
 			}
 		case config.TypeLink:
@@ -386,12 +386,12 @@ func (m RootModel) renderSettingsDetailBlock(settingsMeta []config.SettingMeta, 
 		}
 	}
 
-	valueLabel := "Value: "
+	valueLabel := i18n.T("Value: ")
 	if (meta.Key == "default_download_dir" || meta.Key == "theme_path") && !m.SettingsIsEditing {
 		valueLabel = "[Tab] Browse: "
 	}
 	if meta.Type == "link" {
-		valueLabel = "Action: "
+		valueLabel = i18n.T("Action: ")
 	}
 
 	valueLabelStyle := lipgloss.NewStyle().Foreground(colors.LightGray()).Bold(true)
@@ -887,9 +887,9 @@ func formatSettingValue(value interface{}, typ config.SettingType, truncate bool
 	case config.TypeBool:
 		if b, ok := value.(bool); ok {
 			if b {
-				return "True"
+				return i18n.T("True")
 			}
-			return "False"
+			return i18n.T("False")
 		}
 		if v, ok := asFloat64(value); ok {
 			if v != 0 {

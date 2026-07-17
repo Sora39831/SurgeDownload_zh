@@ -7,6 +7,7 @@ import (
 	"github.com/SurgeDM/Surge/internal/config"
 	"github.com/SurgeDM/Surge/internal/tui/colors"
 	"github.com/SurgeDM/Surge/internal/tui/components"
+	"github.com/SurgeDM/Surge/internal/i18n"
 	"github.com/SurgeDM/Surge/internal/utils"
 )
 
@@ -31,7 +32,7 @@ func (m RootModel) viewSpeedLimits() string {
 			valStr = "0"
 		}
 
-		suffix := "MB/s"
+		suffix := i18n.T("MB/s")
 		if strings.HasPrefix(meta.Key, "dl:") {
 			defaultRate := int64(0)
 			if m.Settings != nil && m.Settings.Network.DefaultDownloadRateLimit != nil {
@@ -54,8 +55,8 @@ func (m RootModel) viewSpeedLimits() string {
 	}
 
 	modal := components.ListInputModal{
-		Title:       "Speed Limits",
-		Subtitle:    "Note: Enter 0 for infinity/unlimited.",
+		Title:       i18n.T("Speed Limits"),
+		Subtitle:    i18n.T("Note: Enter 0 for infinity/unlimited."),
 		Items:       items,
 		Cursor:      m.speedLimitsCursor,
 		Input:       m.SettingsInput,
@@ -248,7 +249,7 @@ func (m *RootModel) resetSpeedLimitToDefault(key string, defaults *config.Settin
 // formatDownloadRateLimitValue returns the string representation of the download's rate limit.
 func (m RootModel) formatDownloadRateLimitValue(d *DownloadModel) string {
 	if d == nil {
-		return "inherit"
+		return i18n.T("inherit")
 	}
 	if d.RateLimitSet {
 		return utils.FormatRateLimit(d.RateLimit)

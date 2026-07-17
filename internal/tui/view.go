@@ -246,9 +246,9 @@ func (m RootModel) View() tea.View {
 	if m.state == BugReportTargetState {
 		w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 64, 12)
 		modal := components.ConfirmationModal{
-			Title:            "Bug Report",
-			Message:          "What would you like to report?",
-			Detail:           "Surge Core includes CLI/TUI/server components.",
+			Title:            i18n.T("Bug Report"),
+			Message:          i18n.T("What would you like to report?"),
+			Detail:           i18n.T("Surge Core includes CLI/TUI/server components."),
 			Keys:             m.keys.BugReport,
 			Help:             m.help,
 			BorderColor:      colors.Cyan(),
@@ -256,8 +256,8 @@ func (m RootModel) View() tea.View {
 			Height:           h,
 			ShowYesNoButtons: true,
 			YesNoFocused:     m.quitConfirmFocused,
-			YesLabel:         "Surge Core",
-			NoLabel:          "Extension",
+			YesLabel:         i18n.T("Surge Core"),
+			NoLabel:          i18n.T("Extension"),
 		}
 		box := modal.RenderWithBtopBox(renderBtopBox, PaneTitleStyle)
 		return m.wrapView(m.renderModalWithOverlay(box))
@@ -284,7 +284,7 @@ func (m RootModel) View() tea.View {
 	if m.state == BugReportLogPathState {
 		w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 72, 12)
 		modal := components.ConfirmationModal{
-			Title:            "Core Bug Report",
+			Title:            i18n.T("Core Bug Report"),
 			Message:          i18n.T("Include latest debug log path in issue body?"),
 			Detail:           i18n.T("Choose yes to prefill the latest path when available."),
 			Keys:             m.keys.QuitConfirm,
@@ -877,8 +877,8 @@ func (m RootModel) viewQuitConfirm() string {
 		Height:           h,
 		ShowYesNoButtons: true,
 		YesNoFocused:     m.quitConfirmFocused,
-		YesLabel:         "Yep!",
-		NoLabel:          "Nope",
+		YesLabel:         i18n.T("Yep!"),
+		NoLabel:          i18n.T("Nope"),
 	}
 	return modal.RenderWithBtopBox(renderBtopBox, PaneTitleStyle)
 }
@@ -886,9 +886,9 @@ func (m RootModel) viewQuitConfirm() string {
 func (m RootModel) viewRestartConfirm() string {
 	w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 60, 10)
 	modal := components.ConfirmationModal{
-		Title:            "Restart Required",
-		Message:          "Settings saved!",
-		Detail:           "Restart now to take effect?",
+		Title:            i18n.T("Restart Required"),
+		Message:          i18n.T("Settings saved!"),
+		Detail:           i18n.T("Restart now to take effect?"),
 		Keys:             m.keys.QuitConfirm,
 		Help:             m.help,
 		BorderColor:      colors.Orange(),
@@ -897,8 +897,8 @@ func (m RootModel) viewRestartConfirm() string {
 		Height:           h,
 		ShowYesNoButtons: true,
 		YesNoFocused:     m.quitConfirmFocused,
-		YesLabel:         "Yes",
-		NoLabel:          "No",
+		YesLabel:         i18n.T("Yes"),
+		NoLabel:          i18n.T("No"),
 	}
 	return modal.RenderWithBtopBox(renderBtopBox, PaneTitleStyle)
 }
@@ -924,8 +924,8 @@ func (m RootModel) viewPurgeConfirm() string {
 		BorderColor:      colors.Red(),
 		ShowYesNoButtons: true,
 		YesNoFocused:     m.quitConfirmFocused,
-		YesLabel:         "Yes",
-		NoLabel:          "No",
+		YesLabel:         i18n.T("Yes"),
+		NoLabel:          i18n.T("No"),
 	}
 
 	w, h := GetDynamicModalDimensions(m.width, m.height, 46, 8, 60, 12)
@@ -938,7 +938,7 @@ func (m RootModel) viewPurgeConfirm() string {
 func (m RootModel) viewCategoryResetConfirm() string {
 	w, h := GetDynamicModalDimensions(m.width, m.height, 40, 8, 60, 10)
 	modal := components.ConfirmationModal{
-		Title:            "Category Reset",
+		Title:            i18n.T("Category Reset"),
 		Message:          i18n.T("Reset all categories to defaults?"),
 		Detail:           i18n.T("This will overwrite your custom rules."),
 		Keys:             m.keys.QuitConfirm,
@@ -949,8 +949,8 @@ func (m RootModel) viewCategoryResetConfirm() string {
 		Height:           h,
 		ShowYesNoButtons: true,
 		YesNoFocused:     m.quitConfirmFocused,
-		YesLabel:         "Yes",
-		NoLabel:          "No",
+		YesLabel:         i18n.T("Yes"),
+		NoLabel:          i18n.T("No"),
 	}
 	return modal.RenderWithBtopBox(renderBtopBox, PaneTitleStyle)
 }

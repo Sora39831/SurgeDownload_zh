@@ -50,10 +50,10 @@ func (m RootModel) viewCategoryManager() string {
 	}
 
 	// === TOGGLE BAR ===
-	enabledStr := "OFF"
+	enabledStr := i18n.T("OFF")
 	enabledColor := colors.Gray()
 	if config.Resolve[bool](m.Settings.Categories.CategoryEnabled) {
-		enabledStr = "ON"
+		enabledStr = i18n.T("ON")
 		enabledColor = colors.StateDownloading()
 	}
 	toggleStyle := lipgloss.NewStyle().Foreground(enabledColor).Bold(true)

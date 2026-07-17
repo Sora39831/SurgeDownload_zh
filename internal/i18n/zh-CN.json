@@ -390,4 +390,23 @@
   "View detailed instructions on how to set up the Surge browser extension.": "查看如何设置 Surge 浏览器扩展的详细说明。",
   "Watch clipboard for URLs and prompt to download them.": "监控剪贴板中的 URL 并提示下载。",
   "Your authentication token. Use this to connect the Browser Extension to Surge.": "你的认证令牌。用于将浏览器扩展连接到 Surge。"
+,
+  "OFF": "关闭",
+  "ON": "开启",
+  "Speed Limits": "速度限制",
+  "Note: Enter 0 for infinity/unlimited.": "注意：输入 0 表示无限/无限制。",
+  "inherit": "继承",
+  "max_global_connections": "最大全局连接数",
+  "service management is not available on this platform": "此平台不支持服务管理",
+  "Yep!": "是的！",
+  "Nope": "不",
+  "Restart Required": "需要重启",
+  "Download Anyway": "仍然下载",
+  "Skip": "跳过",
+  "This file is already being downloaded:": "此文件已在下载中："
+,
+  "Purge Download": "清除下载",
+  "Permanently delete this download?": "永久删除此下载？",
+  "File: %s\nThis will also remove the downloaded file(s) from disk.": "文件：%s\n这还将从磁盘中删除已下载的文件。"
+
 }

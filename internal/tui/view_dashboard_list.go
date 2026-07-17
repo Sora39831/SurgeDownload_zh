@@ -63,9 +63,9 @@ func (m *RootModel) renderDownloadsBox(width, height int, stats ViewStats) strin
 	var listContent string
 	if len(m.list.Items()) == 0 {
 		if m.searchQuery != "" {
-			listContent = renderEmptyMessage(listContentWidth, listContentHeight, "No matching downloads")
+			listContent = renderEmptyMessage(listContentWidth, listContentHeight, i18n.T("No matching downloads"))
 		} else {
-			listContent = renderEmptyMessage(listContentWidth, listContentHeight, "No downloads yet")
+			listContent = renderEmptyMessage(listContentWidth, listContentHeight, i18n.T("No downloads yet"))
 		}
 	} else {
 		listContent = m.list.View()
